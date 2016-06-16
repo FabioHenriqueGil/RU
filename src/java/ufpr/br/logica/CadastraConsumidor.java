@@ -16,8 +16,12 @@ import ufpr.br.modelo.Vinculo;
 public interface CadastraConsumidor {
 
     Consumidor novoConsumidor(Modalidade modalidade, Vinculo vinculo, String nome, String grr);
-    
+
     void cadastrarConsumidor(Consumidor consumidor);
 
     void alterarConsumidor(Consumidor consumidor);
+
+    void ativaConsumidor(int id);
+
+    void desativaConsumidor(int id);
 }

@@ -5,23 +5,24 @@
  */
 package ufpr.br.modelo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 /**
  *
  * @author fabio
  */
-@Entity
 public class Credito {
-    @Id
-    @GeneratedValue
     private int id;
     private double saldo;
 
     public Credito() {
+        this.saldo = 0;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public double getSaldo() {

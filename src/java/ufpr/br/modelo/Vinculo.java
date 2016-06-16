@@ -5,25 +5,47 @@
  */
 package ufpr.br.modelo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 /**
  *
  * @author fabio
  */
-@Entity
 public class Vinculo {
-    @Id
-    @GeneratedValue
     private int id;
     private String descricao;
+    boolean ativo = true;
+    
 
     public Vinculo(String descricao) {
         this.descricao = descricao;
         
     }
+
+    public Vinculo() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+    
     
     
     

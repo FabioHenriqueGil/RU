@@ -5,33 +5,20 @@
  */
 package ufpr.br.modelo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 /**
  *
  * @author fabio
  */
-@Entity 
 public class Consumidor {
 
-    @Id
-    @GeneratedValue
     private int id;
     private String nome;
     private String grr;
-    @ManyToOne(cascade = javax.persistence.CascadeType.PERSIST)
     private Vinculo vinculo;
-    @ManyToOne(cascade = javax.persistence.CascadeType.PERSIST)
     private Modalidade modalidade;
-    @OneToOne(cascade = javax.persistence.CascadeType.ALL)
     private Credito credito;
-    
+    boolean ativo = true;
+
     public Consumidor(Modalidade modalidade, Vinculo vinculo, String nome) {
         this.credito = new Credito();
         this.modalidade = modalidade;
@@ -46,6 +33,16 @@ public class Consumidor {
         this.vinculo = vinculo;
         this.nome = nome;
         this.grr = grr;
+    }
+
+    public Consumidor(int id) {
+        this.credito = new Credito();
+        this.id = id;
+    }
+
+    public Consumidor() {
+        this.credito = new Credito();
+
     }
 
     public void setVinculo(Vinculo vinculo) {
@@ -88,4 +85,27 @@ public class Consumidor {
         return credito;
     }
 
+    public void saca(double valor) {
+        this.credito.saca(valor);
+    }
+
+    public void deposita(double valor) {
+        this.credito.deposita(valor);
+
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public void setCredito(Credito credito) {
+        this.credito = credito;
+    }
 }

@@ -5,6 +5,7 @@
  */
 package ufpr.br.logica;
 
+import java.util.List;
 import ufpr.br.modelo.Consumidor;
 
 /**
@@ -15,6 +16,8 @@ public interface BuscaConsumidor {
     
     Consumidor buscarConsumidor(int id);
     
-    Consumidor buscarConsumidor(String nome);
+    List<Consumidor> listarConsumidores();
+    
+    List<Consumidor> listarConsumidores(String nome);
     
 }
