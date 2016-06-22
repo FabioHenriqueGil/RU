@@ -11,7 +11,7 @@ public class ConnectionFactory {
 	public Connection getConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			return DriverManager.getConnection("jdbc:mysql://192.167.0.106/ruSql", "root", "karlling123");
+			return DriverManager.getConnection("jdbc:mysql://localhost/ruSql", "root", "root");
 		} catch(ClassNotFoundException erro){
 			JOptionPane.showMessageDialog(null,"Driver JDBC-MySQL não encontrado!!");
 			System.exit(0);
