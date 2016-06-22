@@ -14,38 +14,36 @@
         <div class="container">
             <div class="panel panel-primary">
                 <div class="panel-heading" align="center"><h1>Inicio</h1></div>
-                <div class="panel panel-primary col-xs-8 col-sm-6">
-
-                    <div class="panel panel-primary col-lg-2" align="center">
+                <div class="panel panel-primary col-sm-12">
+                    <br>
+                    <div class="panel panel-primary col-lg-6" align="center">
                         <br>
                         <a href="cadastro" class="btn btn-success btn-lg" >Cadastro</a>
                         <br><br>
                     </div>
-                    <div class="panel panel-primary col-lg-2" align="center">
+                    <div class="panel panel-primary col-lg-6" align="center">
                         <br>
                         <a href="relatorio" class="btn btn-primary btn-lg">Relatório</a>
                         <br><br>
-
-
                     </div>
-                </div>
-                <div class="panel panel-primary col-xs-8 col-sm-6">
-                    <div class="panel panel-primary col-lg-2" align="center">
+
+                    <div class="panel panel-primary col-lg-6" align="center">
                         <br>
                         <a href="vendas" class="btn btn-warning btn-lg">Vendas</a>
                         <br><br>
 
                     </div>
-                    <div class="panel panel-primary col-lg-2" align="center">
+                    <div class="panel panel-primary col-lg-6" align="center">
                         <br>
                         <a href="caixa" class="btn btn-danger btn-lg">Caixa</a>
                         <br><br>
 
                     </div>
 
+
+
+
                 </div>
-
-
 
 
 

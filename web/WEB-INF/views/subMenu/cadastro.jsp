@@ -15,29 +15,29 @@
             <div class="panel panel-primary">
 
                 <div class="panel-heading" align="center"><h1>Cadastro</h1></div>
-                <div class="panel panel-primary col-xs-8 col-sm-6">
+                <br><br>
+                <div class="panel panel-primary col-sm-12">
 
-                    <div class="panel panel-primary col-lg-2" align="center">
+                    <div class="panel panel-primary col-lg-6" align="center">
                         <br>
                         <a href="listaModalidades" class="btn btn-success btn-lg" >Modalidade</a>
                         <br><br>
                     </div>
-                    <div class="panel panel-primary col-lg-2" align="center">
+                    <div class="panel panel-primary col-lg-6" align="center">
                         <br>
                         <a href="listaVinculos" class="btn btn-primary btn-lg">Vinculo</a>
                         <br><br>
 
 
                     </div>
-                </div>
-                <div class="panel panel-primary col-xs-8 col-sm-6">
-                    <div class="panel panel-primary col-lg-2" align="center">
+                
+                    <div class="panel panel-primary col-lg-6" align="center">
                         <br>
                         <a href="listaConsumidores" class="btn btn-warning btn-lg">Consumidor</a>
                         <br><br>
 
                     </div>
-                    <div class="panel panel-primary col-lg-2" align="center">
+                    <div class="panel panel-primary col-lg-6" align="center">
                         <br>
                         <a href="listaProdutos" class="btn btn-danger btn-lg">Produto</a>
                         <br><br>
