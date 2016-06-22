@@ -17,20 +17,20 @@
     </head>
     <body>
 
-        <form role="form" action="adicionaModalidade" method="POST">
+<!--       <form role="form" action="adicionaModalidade" method="POST">-->
             <div class="container">
                 <div class="panel panel-primary">
                     <div class="panel-heading" align="center"><h2>Cadastro</h2></div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="descricao">Descrição:</label> <input type="text"
-                                                                             class="form-control" name="descricao" id="nome">
+                                                                             class="form-control" name="descricao" id="descricao">
                         </div>
-                        <div class="panel-body">
+                        <div id="checkDiv" class="panel-body">
                             <div class="panel-heading" >Vinculos Bloqueados</div>
                             <c:forEach items="${vinculos}" var="vinculo">
                                 <input type="checkbox" id="${vinculo.id}" 
-                                       name="${modalidade.lista.vinculo.id}" />
+                                       name="${vinculo.id}" />
                                 <label for="${vinculo.id}">
                                     ${vinculo.descricao}
                                 </label>
@@ -41,14 +41,29 @@
 
                         </div>
 
-
-
-                        <button type="submit" class="btn btn-primary">Gravar</button>
+                        <button type="button" class="btn btn-primary" onclick="gravar()">Gravar</button>
                         <button type="button" class="btn btn-primary"
                                 onclick="window.location.href = 'listaModalidades';">Cancelar</button>
                     </div>
                 </div>
             </div>
-        </form>
+<!--        </form>-->
+        <script type="text/javascript">
+            function gravar() {
+                var minhaDiv = document.getElementById("checkDiv");
+                var listaMarcados = minhaDiv.getElementsByTagName("INPUT");
+                var list = new Array();
+                for (loop = 0; loop < listaMarcados.length; loop++) {
+                    var item = listaMarcados[loop];
+                    if (item.type == "checkbox" && item.checked) {
+                        list[list.length] = item.id;
+                        //list = new Array(list, item.id);
+                    }
+                }
+                
+            window.location.href = "adicionaModalidade?descricao="+$('#descricao').val()+"&vinculosBloqueados="+list ; 
+            }
+
+        </script>
     </body>
 </html>
