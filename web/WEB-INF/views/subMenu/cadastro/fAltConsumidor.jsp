@@ -24,7 +24,7 @@
                     <div class="panel-heading" align="center"><h2>Alterar</h2></div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="nome">Nome: </label> <input type="text" value="${consumidor.nome}"
+                            <label for="nome">Nome: </label> <input onblur="botaoGravar()" type="text" value="${consumidor.nome}"
                                                                     class="form-control" name="nome" id="nome">
                         </div>
                         <div class="form-group">
@@ -69,9 +69,9 @@
 
                         </div>
 
-                        <div id="vinculosDiv" class="form-group" align="center"> 
+                        <div onclick="botaoGravar()" id="vinculosDiv" class="form-group" align="center"> 
                             <c:if test="${consumidor.modalidade.id != 0}">
-                                <select  name="vinculo_id" id="vinculo_id" class="list-group center-block" >
+                                <select onselect="botaoGrava()"  name="vinculo_id" id="vinculo_id" class="list-group center-block" >
                                     <option value="0" class="list-group-item" selected>Vinculo</option>
                                     <c:forEach items="${vinculos}" var="vinculo" >
                                         <c:if test="${consumidor.vinculo.id == vinculo.id}">
@@ -85,7 +85,7 @@
                                 </select>
                             </c:if>
                             <c:if test="${consumidor.modalidade.id == 0}">
-                                <select name="vinculo_id" id="vinculo_id" class="list-group center-block" disabled>
+                                <select onblur="botaoGrava()"  name="vinculo_id" id="vinculo_id" class="list-group center-block" disabled>
                                     <option value="0" class="list-group-item" selected>Vinculo</option>
                                 </select>
                             </c:if>
@@ -102,11 +102,17 @@
                 </div>
             </div>
             <script type="text/javascript">
-                function botaoGrava() {
+                function botaoGravar() {
+                    if (($('#vinculo_id').val() == 0) || ($('#nome').val() == '')) {
+                        document.form.gravar.disabled = true;
+                    } else {
+                        document.form.gravar.disabled = false;
+                    }
+                }
 
-                    alert($('#vinculo_id').val());
-                    if ($('#vinculo_id').val() === 0) {
 
+                window.onload = function () {
+                    if (($('#vinculo_id').val() == 0) || ($('#nome').val() == '')) {
                         document.form.gravar.disabled = true;
                     } else {
                         document.form.gravar.disabled = false;

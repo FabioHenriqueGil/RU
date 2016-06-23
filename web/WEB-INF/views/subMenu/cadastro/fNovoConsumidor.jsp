@@ -17,13 +17,13 @@
     </head>
     <body>
 
-        <form role="form" action="adicionaConsumidor" method="POST">
+        <form name="form" id="form" role="form" action="adicionaConsumidor" method="POST">
             <div class="container">
                 <div class="panel panel-primary">
                     <div class="panel-heading" align="center"><h2>Cadastro</h2></div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="nome">Nome: </label> <input type="text" value="${nome}"
+                            <label  for="nome">Nome: </label> <input onblur="botaoGravar()" type="text" value="${nome}"
                                                                     class="form-control" name="nome" id="nome">
                         </div>
                         <div class="form-group">
@@ -32,8 +32,8 @@
                         </div>
 
                         <div class="form-group" align="center">
-                            <select name="modalidade_id" id="modalidade_id" class="list-group center-block">
-                                <option  value="" class="list-group-item" onclick="atualiza(0)">Modalidade</option>
+                            <select name="modalidade_id" id="modalidade_id" class="list-group center-block" >
+                                <option  value="0" class="list-group-item" onclick="atualiza(0)">Modalidade</option>
                                 <c:forEach items="${modalidades}" var="modalidade">
 
                                     <c:if test="${param.idModalidade == modalidade.id}">
@@ -51,10 +51,10 @@
 
                         </div>
 
-                        <div id="vinculosDiv" class="form-group" align="center"> 
+                        <div onclick="botaoGravar()" id="vinculosDiv" class="form-group" align="center"> 
                             <c:if test="${param.idModalidade != 0}">
                                 <select name="vinculo_id" id="vinculo_id" class="list-group center-block" >
-                                    <option value="" class="list-group-item" selected>Vinculo</option>
+                                    <option value="0" class="list-group-item" selected>Vinculo</option>
                                     <c:forEach items="${vinculos}" var="vinculo" >
                                         <option value="${vinculo.id}" class="list-group-item ">${vinculo.descricao}</option>
                                     </c:forEach>
@@ -62,7 +62,7 @@
                             </c:if>
                             <c:if test="${param.idModalidade == 0}">
                                 <select name="vinculo_id" id="vinculo_id" class="list-group center-block" disabled>
-                                    <option value="" class="list-group-item" selected>Vinculo</option>
+                                    <option value="0" class="list-group-item" selected>Vinculo</option>
                                 </select>
                             </c:if>
                         </div>
@@ -70,7 +70,7 @@
                     </div>
 
                     <div align="center" >
-                        <button type="submit" class="btn btn-primary">Gravar</button>
+                        <button name="gravar" id="gravar" type="submit" class="btn btn-primary">Gravar</button>
                         <button type="button" class="btn btn-primary"
                                 onclick="window.location.href = 'listaConsumidores';">Cancelar</button>
                         <br><br>
@@ -78,11 +78,25 @@
                 </div>
             </div>
             <script type="text/javascript">
-                
+                function botaoGravar() {
+                    if (($('#vinculo_id').val() == 0) || ($('#nome').val() == '')) {
+                        document.form.gravar.disabled = true;
+                    } else {
+                        document.form.gravar.disabled = false;
+                    }
+                }
+
+
+                window.onload = function () {
+                    if (($('#vinculo_id').val() == 0) || ($('#nome').val() == '')) {
+                        document.form.gravar.disabled = true;
+                    } else {
+                        document.form.gravar.disabled = false;
+                    }
+                }
                 function atualiza(idMod) {
-                    
-                    window.location.assign("novoConsumidor?idModalidade=" + idMod+"&nome="+$('#nome').val()+"&grr="+$('#grr').val());
-                    
+
+                    window.location.assign("novoConsumidor?idModalidade=" + idMod + "&nome=" + $('#nome').val() + "&grr=" + $('#grr').val());
                     //$.get("novoConsumidor?id=" + idMod);
 
                     // $("#vinculosDiv").html(idMod);
