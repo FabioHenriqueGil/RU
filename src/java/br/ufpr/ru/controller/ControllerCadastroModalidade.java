@@ -27,7 +27,7 @@ public class ControllerCadastroModalidade {
     @RequestMapping("novaModalidade")
     public String form(Model model) {
         LogicaVinculo logica = new LogicaVinculo();
-        model.addAttribute("vinculos", logica.lista());
+        model.addAttribute("vinculos", logica.listaAtivos());
         return "subMenu/cadastro/fNovaModalidade";
     }
 
@@ -65,7 +65,7 @@ public class ControllerCadastroModalidade {
         LogicaModalidade logicaModalidade = new LogicaModalidade();
         LogicaVinculo logicaVinculo = new LogicaVinculo();
         model.addAttribute("modalidade", logicaModalidade.buscaModalidade(id));
-        model.addAttribute("vinculos", logicaVinculo.lista(logicaModalidade.buscaModalidade(id)));
+        model.addAttribute("vinculos", logicaVinculo.listaAtivos(logicaModalidade.buscaModalidade(id)));
 
         return "subMenu/cadastro/fAltModalidade";
 
@@ -76,12 +76,15 @@ public class ControllerCadastroModalidade {
         LogicaModalidade logica = new LogicaModalidade();
         LogicaVinculo lv = new LogicaVinculo();
         List<Vinculo> listaVinculos = new ArrayList<>();
-        String[] vbArray = vinculosBloqueados.split(",");
 
-        for (String string : vbArray) {
-            System.out.println("br.ufpr.ru.controller.ControllerCadastroModalidade.adiciona()" + string);
-            listaVinculos.add(lv.buscaVinculo(Integer.parseInt(string)));
+        if (vinculosBloqueados != null && vinculosBloqueados != "") {
+            String[] vbArray = vinculosBloqueados.split(",");
 
+            for (String string : vbArray) {
+                System.out.println("br.ufpr.ru.controller.ControllerCadastroModalidade.adiciona()" + string);
+                listaVinculos.add(lv.buscaVinculo(Integer.parseInt(string)));
+
+            }
         }
         modalidade.setVinculosBloqueados(listaVinculos);
 

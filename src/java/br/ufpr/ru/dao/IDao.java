@@ -17,5 +17,6 @@ public interface IDao<T>{
     void deletar(T obj);
     T buscar(int id);
     List<T> listar();
+    List<T> listarAtivos();
     List<T> listar(String filtro);
 }

@@ -45,7 +45,7 @@ public class ControllerCadastroVinculo {
     public String mostraVinculo(int id, Model model) {
         LogicaVinculo logica = new LogicaVinculo();
         model.addAttribute("vinculo", logica.buscaVinculo(id));
-
+        
         return "subMenu/cadastro/fAltVinculo";
 
     }

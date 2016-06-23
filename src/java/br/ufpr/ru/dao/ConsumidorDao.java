@@ -36,10 +36,10 @@ public class ConsumidorDao implements IDao<Consumidor> {
         String sql = "insert into Consumidor " + "(nome,grr,Modalidade_id,Vinculo_id,Credito_id)" + "values(?,?,?,?,?)";
 
         try {
-            
+
             CreditoDao crd = new CreditoDao();
             crd.inserir(obj.getCredito());
-            
+
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, obj.getNome());
             stmt.setString(2, obj.getGrr());
@@ -65,14 +65,14 @@ public class ConsumidorDao implements IDao<Consumidor> {
 
     @Override
     public void alterar(Consumidor obj) {
-        String sql = "update Consumidor set nome=?, grr=?, Modalidade_id=?, Vinculo_id=?, ativo=? where id=" + obj.getId();
+        String sql = "update Consumidor set nome=?, grr=?, ativo=?, Modalidade_id=?, Vinculo_id=? where id=" + obj.getId();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, obj.getNome());
             stmt.setString(2, obj.getGrr());
-            stmt.setInt(3, obj.getModalidade().getId());
-            stmt.setInt(4, obj.getVinculo().getId());
-            stmt.setBoolean(5, obj.isAtivo());
+            stmt.setBoolean(3, obj.isAtivo());
+            stmt.setInt(4, obj.getModalidade().getId());
+            stmt.setInt(5, obj.getVinculo().getId());
             CreditoDao crd = new CreditoDao();
             crd.alterar(obj.getCredito());
             stmt.execute();
@@ -119,19 +119,19 @@ public class ConsumidorDao implements IDao<Consumidor> {
                 consumidor.setNome(resultado.getString("nome"));
                 consumidor.setGrr(resultado.getString("grr"));
                 consumidor.setAtivo(resultado.getBoolean("ativo"));
-                 
+
                 ModalidadeDao md = new ModalidadeDao();
                 Modalidade mod = md.buscar(resultado.getInt("Modalidade_id"));
                 consumidor.setModalidade(mod);
-                
+
                 VinculoDao vd = new VinculoDao();
                 Vinculo vin = vd.buscar(resultado.getInt("Vinculo_id"));
                 consumidor.setVinculo(vin);
-                
+
                 CreditoDao crd = new CreditoDao();
                 Credito cre = crd.buscar(resultado.getInt("Credito_id"));
                 consumidor.setCredito(cre);
-               
+
             }
             // fecha conexão
             resultado.close();
@@ -162,20 +162,18 @@ public class ConsumidorDao implements IDao<Consumidor> {
                 consumidor.setNome(resultado.getString("nome"));
                 consumidor.setGrr(resultado.getString("grr"));
                 consumidor.setAtivo(resultado.getBoolean("ativo"));
-                
-                
+
                 ModalidadeDao md = new ModalidadeDao();
                 Modalidade mod = md.buscar(resultado.getInt("Modalidade_id"));
                 consumidor.setModalidade(mod);
-                
+
                 VinculoDao vd = new VinculoDao();
                 Vinculo vin = vd.buscar(resultado.getInt("Vinculo_id"));
                 consumidor.setVinculo(vin);
-                
+
                 CreditoDao crd = new CreditoDao();
                 Credito cre = crd.buscar(resultado.getInt("Credito_id"));
                 consumidor.deposita(cre.getSaldo());
-               
 
                 consumidores.add(consumidor);
             }
@@ -191,9 +189,9 @@ public class ConsumidorDao implements IDao<Consumidor> {
     }
 
     @Override
-    public List<Consumidor> listar(String filtro) {
-         List<Consumidor> consumidores = new ArrayList<Consumidor>();
-        String sql = "select * from Consumidor where nome like'%"+filtro+"%'";
+    public List<Consumidor> listarAtivos() {
+        List<Consumidor> consumidores = new ArrayList<Consumidor>();
+        String sql = "select * from Consumidor where ativo= '1'";
 
         try {
 
@@ -206,20 +204,63 @@ public class ConsumidorDao implements IDao<Consumidor> {
                 consumidor.setId(resultado.getInt("id"));
                 consumidor.setNome(resultado.getString("nome"));
                 consumidor.setGrr(resultado.getString("grr"));
-                consumidor.setAtivo(resultado.getBoolean("ativo"));                
-                
+                consumidor.setAtivo(resultado.getBoolean("ativo"));
+
                 ModalidadeDao md = new ModalidadeDao();
                 Modalidade mod = md.buscar(resultado.getInt("Modalidade_id"));
                 consumidor.setModalidade(mod);
-                
+
                 VinculoDao vd = new VinculoDao();
                 Vinculo vin = vd.buscar(resultado.getInt("Vinculo_id"));
                 consumidor.setVinculo(vin);
-                
+
                 CreditoDao crd = new CreditoDao();
                 Credito cre = crd.buscar(resultado.getInt("Credito_id"));
                 consumidor.deposita(cre.getSaldo());
-               
+
+                consumidores.add(consumidor);
+            }
+            // fecha conexão
+            resultado.close();
+            stmt.close();
+            return consumidores;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public List<Consumidor> listar(String filtro) {
+        List<Consumidor> consumidores = new ArrayList<Consumidor>();
+        String sql = "select * from Consumidor where nome like'%" + filtro + "%'";
+
+        try {
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            // executa
+            ResultSet resultado = stmt.executeQuery();
+            // alimenta a lista
+            while (resultado.next()) {
+                Consumidor consumidor = new Consumidor();
+                consumidor.setId(resultado.getInt("id"));
+                consumidor.setNome(resultado.getString("nome"));
+                consumidor.setGrr(resultado.getString("grr"));
+                consumidor.setAtivo(resultado.getBoolean("ativo"));
+
+                ModalidadeDao md = new ModalidadeDao();
+                Modalidade mod = md.buscar(resultado.getInt("Modalidade_id"));
+                consumidor.setModalidade(mod);
+
+                VinculoDao vd = new VinculoDao();
+                Vinculo vin = vd.buscar(resultado.getInt("Vinculo_id"));
+                consumidor.setVinculo(vin);
+
+                CreditoDao crd = new CreditoDao();
+                Credito cre = crd.buscar(resultado.getInt("Credito_id"));
+                consumidor.deposita(cre.getSaldo());
 
                 consumidores.add(consumidor);
             }

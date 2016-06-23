@@ -58,4 +58,9 @@ public class LogicaModalidade implements CrudModalidade {
         return dao.listar(descricao);
     }
 
+    @Override
+    public List<Modalidade> listaAtivos() {
+        return dao.listarAtivos();
+    }
+
 }

@@ -30,7 +30,7 @@
                     <div>
                         <label for="ativo">Ativo: </label>
                             <input class=" checkbox-inline" type="checkbox"
-                                   name="ativo" id="ativo" value="true"  ${modalidade.ativo? 'checked' : ''} onclick="refreshCheckBox(this)"/>
+                                   name="ativo" id="ativo" value="${modalidade.ativo}"  ${modalidade.ativo? 'checked' : ''} onclick="refreshCheckBox(this)"/>
                            
                     </div>
                     <div id="checkDiv" class="panel-body">
@@ -61,7 +61,7 @@
 
 
 
-                    <button type="button" class="btn btn-primary" onclick="gravar()">Gravar</button>
+                    <button type="button" class="btn btn-primary" onclick="gravar()" >Gravar</button>
                     <button type="button" class="btn btn-primary"
                             onclick="window.location.href = 'listaModalidades';">Cancelar</button>
                 </div>

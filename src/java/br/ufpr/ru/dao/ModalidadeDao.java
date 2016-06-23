@@ -82,7 +82,7 @@ public class ModalidadeDao implements IDao<Modalidade> {
                 for (Vinculo vb : obj.getVinculosBloqueados()) {
                     stmtVB.setInt(1, vb.getId());
                     stmtVB.setInt(2, obj.getId());
-                    System.out.println("br.ufpr.ru.dao.ModalidadeDao.alterar()"+sqlVB+" "+ vb.getId()+" "+obj.getId());
+                    System.out.println("br.ufpr.ru.dao.ModalidadeDao.alterar()" + sqlVB + " " + vb.getId() + " " + obj.getId());
                     stmtVB.execute();
                 }
             }
@@ -117,7 +117,8 @@ public class ModalidadeDao implements IDao<Modalidade> {
 
     private List<Vinculo> VinculosBloqueados(int id) {
         List<Vinculo> vinculosBloqueados = new ArrayList<>();
-        String sqlVB = "select * from VinculosBloqueados where Modalidade_id=" + id;
+        String sqlVB = "select * from VinculosBloqueados where Modalidade_id=" + id
+                + " AND vinculo_id NOT IN (select id from Vinculo where ativo = '0')";
         try {
             PreparedStatement stmtVB = connection.prepareStatement(sqlVB);
             ResultSet resultadoVB = stmtVB.executeQuery();
@@ -174,6 +175,37 @@ public class ModalidadeDao implements IDao<Modalidade> {
 
         List<Modalidade> mods = new ArrayList<Modalidade>();
         String sql = "select * from Modalidade";
+
+        try {
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            // executa
+            ResultSet resultado = stmt.executeQuery();
+            // alimenta a lista
+            while (resultado.next()) {
+                Modalidade mod = new Modalidade();
+                mod.setId(resultado.getInt("id"));
+                mod.setDescricao(resultado.getString("descricao"));
+                mod.setVinculosBloqueados(VinculosBloqueados(mod.getId()));
+                mod.setAtivo(resultado.getBoolean("ativo"));
+                mods.add(mod);
+            }
+            // fecha conexão
+            resultado.close();
+            stmt.close();
+            return mods;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Modalidade> listarAtivos() {
+
+        List<Modalidade> mods = new ArrayList<Modalidade>();
+        String sql = "SELECT * FROM `Modalidade` WHERE ativo = '1'";
 
         try {
 

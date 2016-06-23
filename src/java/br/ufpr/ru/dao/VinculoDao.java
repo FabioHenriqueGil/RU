@@ -63,7 +63,9 @@ public class VinculoDao implements IDao<Vinculo> {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, obj.getDescricao());
             stmt.setBoolean(2, obj.isAtivo());
-            stmt.execute();
+            if (obj.getId() != 0) {
+                stmt.execute();
+            }
             stmt.close();
 
         } catch (SQLException e) {
@@ -107,6 +109,7 @@ public class VinculoDao implements IDao<Vinculo> {
                 vin.setDescricao(resultado.getString("descricao"));
                 vin.setAtivo(resultado.getBoolean("ativo"));
             }
+            
             // fecha conexão
             resultado.close();
             stmt.close();
@@ -149,6 +152,66 @@ public class VinculoDao implements IDao<Vinculo> {
     }
 
     @Override
+    public List<Vinculo> listarAtivos() {
+        List<Vinculo> vins = new ArrayList<Vinculo>();
+        String sql = "select * from Vinculo where ativo = '1'";
+
+        try {
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            // executa
+            ResultSet resultado = stmt.executeQuery();
+            // alimenta a lista
+            while (resultado.next()) {
+                Vinculo vin = new Vinculo();
+                vin.setId(resultado.getInt("id"));
+                vin.setDescricao(resultado.getString("descricao"));
+                vin.setAtivo(resultado.getBoolean("ativo"));
+                vins.add(vin);
+            }
+            // fecha conexão
+            resultado.close();
+            stmt.close();
+            return vins;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Vinculo> listarAtivos(Modalidade mod) {
+        List<Vinculo> vins = new ArrayList<Vinculo>();
+        String sql = "select * from Vinculo where ativo= '1' and id not in(select Vinculo_id "
+                + "from VinculosBloqueados where Modalidade_id =" + mod.getId() + ")";
+        System.out.println(sql);
+        try {
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            // executa
+            ResultSet resultado = stmt.executeQuery();
+            // alimenta a lista
+            while (resultado.next()) {
+                Vinculo vin = new Vinculo();
+                vin.setId(resultado.getInt("id"));
+                vin.setDescricao(resultado.getString("descricao"));
+                vin.setAtivo(resultado.getBoolean("ativo"));
+                vins.add(vin);
+            }
+            // fecha conexão
+            resultado.close();
+            stmt.close();
+
+            return vins;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
     public List<Vinculo> listar(String filtro) {
         List<Vinculo> vins = new ArrayList<Vinculo>();
         String sql = "select * from Vinculo where descricao like'%" + filtro + "%'";
@@ -177,10 +240,11 @@ public class VinculoDao implements IDao<Vinculo> {
         }
 
     }
+
     public List<Vinculo> listar(Modalidade mod) {
         List<Vinculo> vins = new ArrayList<Vinculo>();
         String sql = "select * from Vinculo where id not in(select Vinculo_id "
-                + "from VinculosBloqueados where Modalidade_id ="+mod.getId()+")";
+                + "from VinculosBloqueados where Modalidade_id =" + mod.getId() + ")";
         System.out.println(sql);
         try {
 
@@ -198,7 +262,7 @@ public class VinculoDao implements IDao<Vinculo> {
             // fecha conexão
             resultado.close();
             stmt.close();
-            
+
             return vins;
         } catch (SQLException e) {
             // TODO Auto-generated catch block

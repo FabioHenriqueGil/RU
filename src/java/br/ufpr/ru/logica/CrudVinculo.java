@@ -24,6 +24,10 @@ public interface CrudVinculo {
     void desativaVinculo(int id);
 
     Vinculo buscaVinculo(int id);
+    
+    List<Vinculo> listaAtivos();
+    
+    List<Vinculo> listaAtivos(Modalidade modalidade);
 
     List<Vinculo> lista(Modalidade modalidade);
 

@@ -18,6 +18,8 @@ public interface BuscaConsumidor {
     
     List<Consumidor> listarConsumidores();
     
+    List<Consumidor> listarConsumidoresAtivos();
+    
     List<Consumidor> listarConsumidores(String nome);
     
 }

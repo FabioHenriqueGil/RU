@@ -25,6 +25,8 @@ public interface CrudModalidade {
     Modalidade buscaModalidade(int id);
 
     List<Modalidade> lista();
+    
+    List<Modalidade> listaAtivos();
 
     List<Modalidade> lista(String descricao);
 

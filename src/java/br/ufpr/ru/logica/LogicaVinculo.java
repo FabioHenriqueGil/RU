@@ -55,6 +55,16 @@ public class LogicaVinculo implements CrudVinculo {
 
     public List<Vinculo> lista() {
         return dao.listar();
+       
+    }
+    
+    @Override
+    public List<Vinculo> listaAtivos() {
+        return dao.listarAtivos();
+    }
+    @Override
+    public List<Vinculo> listaAtivos(Modalidade modalidade) {
+        return dao.listarAtivos(modalidade);
     }
 
 }

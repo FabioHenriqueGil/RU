@@ -67,4 +67,9 @@ public class LogicaConsumidor implements CadastraConsumidor, BuscaConsumidor {
         dao.alterar(c);
     }
 
+    @Override
+    public List<Consumidor> listarConsumidoresAtivos() {
+        return dao.listarAtivos();
+    }
+
 }

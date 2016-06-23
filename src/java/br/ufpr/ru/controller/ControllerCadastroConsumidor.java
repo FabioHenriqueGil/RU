@@ -27,13 +27,13 @@ public class ControllerCadastroConsumidor {
     public String form(Model model, Integer idModalidade, String nome, String grr) {
         LogicaVinculo lv = new LogicaVinculo();
         LogicaModalidade lm = new LogicaModalidade();
-        model.addAttribute("modalidades", lm.lista());
+        model.addAttribute("modalidades", lm.listaAtivos());
         model.addAttribute("nome", nome);
         model.addAttribute("grr", grr);
 
         if (idModalidade != null) {
             Modalidade modalidade = lm.buscaModalidade(idModalidade);
-            model.addAttribute("vinculos", lv.lista(modalidade));
+            model.addAttribute("vinculos", lv.listaAtivos(modalidade));
         } else {
             model.addAttribute("vinculos", null);
         }
@@ -69,8 +69,8 @@ public class ControllerCadastroConsumidor {
         LogicaModalidade lm = new LogicaModalidade();
         Modalidade modalidade = lm.buscaModalidade(id);
         model.addAttribute("consumidor", logica.buscarConsumidor(id));
-        model.addAttribute("modalidades", lm.lista());      
-        model.addAttribute("vinculos", lv.lista(modalidade));
+        model.addAttribute("modalidades", lm.listaAtivos());      
+        model.addAttribute("vinculos", lv.listaAtivos(modalidade));
         return "subMenu/cadastro/fAltConsumidor";
 
     }
@@ -88,8 +88,8 @@ public class ControllerCadastroConsumidor {
         consumidor.setAtivo(ativo);
         
         model.addAttribute("consumidor", consumidor);
-        model.addAttribute("modalidades", lm.lista());        
-        model.addAttribute("vinculos", lv.lista(consumidor.getModalidade()));
+        model.addAttribute("modalidades", lm.listaAtivos());        
+        model.addAttribute("vinculos", lv.listaAtivos(consumidor.getModalidade()));
         
         return "subMenu/cadastro/fAltConsumidor";
     }
@@ -102,14 +102,6 @@ public class ControllerCadastroConsumidor {
         LogicaVinculo lv = new LogicaVinculo();
         consumidor.setModalidade(lm.buscaModalidade(modalidade_id));
         consumidor.setVinculo(lv.buscaVinculo(vinculo_id));
-        
-        System.out.println("br.ufpr.ru.controller.ControllerCadastroConsumidor.alteraConsumidor()"+consumidor.getId());
-        System.out.println("br.ufpr.ru.controller.ControllerCadastroConsumidor.alteraConsumidor()"+consumidor.getNome());
-        System.out.println("br.ufpr.ru.controller.ControllerCadastroConsumidor.alteraConsumidor()"+consumidor.getGrr());
-        System.out.println("br.ufpr.ru.controller.ControllerCadastroConsumidor.alteraConsumidor()"+consumidor.isAtivo());
-        System.out.println("br.ufpr.ru.controller.ControllerCadastroConsumidor.alteraConsumidor()"+consumidor.getModalidade().getDescricao());
-        System.out.println("br.ufpr.ru.controller.ControllerCadastroConsumidor.alteraConsumidor()"+consumidor.getVinculo().getDescricao());
-        
         logica.alterarConsumidor(consumidor);
         return "redirect:listaConsumidores";
     }

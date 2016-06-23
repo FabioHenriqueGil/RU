@@ -17,7 +17,7 @@
     </head>
     <body>
 
-        <form role="form" action="alteraConsumidor" method="POST">
+        <form name="form" id="form" role="form" action="alteraConsumidor" method="POST">
             <input type="hidden" name="id" value="${consumidor.id}">
             <div class="container">
                 <div class="panel panel-primary">
@@ -51,7 +51,7 @@
                         </div>
                         <div class="form-group" align="center">
                             <select name="modalidade_id" id="modalidade_id" class="list-group center-block">
-                                <option  value="" class="list-group-item" onclick="atualiza(0)">Modalidade</option>
+                                <option  value="0" class="list-group-item" onclick="atualiza(0)">Modalidade</option>
                                 <c:forEach items="${modalidades}" var="modalidade">
 
                                     <c:if test="${consumidor.modalidade.id == modalidade.id}">
@@ -71,8 +71,8 @@
 
                         <div id="vinculosDiv" class="form-group" align="center"> 
                             <c:if test="${consumidor.modalidade.id != 0}">
-                                <select name="vinculo_id" id="vinculo_id" class="list-group center-block" >
-                                    <option value="" class="list-group-item" selected>Vinculo</option>
+                                <select  name="vinculo_id" id="vinculo_id" class="list-group center-block" >
+                                    <option value="0" class="list-group-item" selected>Vinculo</option>
                                     <c:forEach items="${vinculos}" var="vinculo" >
                                         <c:if test="${consumidor.vinculo.id == vinculo.id}">
                                             <option value="${vinculo.id}" class="list-group-item " selected>${vinculo.descricao}</option>
@@ -86,7 +86,7 @@
                             </c:if>
                             <c:if test="${consumidor.modalidade.id == 0}">
                                 <select name="vinculo_id" id="vinculo_id" class="list-group center-block" disabled>
-                                    <option value="" class="list-group-item" selected>Vinculo</option>
+                                    <option value="0" class="list-group-item" selected>Vinculo</option>
                                 </select>
                             </c:if>
                         </div>
@@ -94,7 +94,7 @@
                     </div>
 
                     <div align="center" >
-                        <button type="submit" class="btn btn-primary">Gravar</button>
+                        <button id="gravar" type="submit" class="btn btn-primary" >Gravar</button>
                         <button type="button" class="btn btn-primary"
                                 onclick="window.location.href = 'listaConsumidores';">Cancelar</button>
                         <br><br>
@@ -102,10 +102,19 @@
                 </div>
             </div>
             <script type="text/javascript">
+                function botaoGrava() {
 
+                    alert($('#vinculo_id').val());
+                    if ($('#vinculo_id').val() === 0) {
+
+                        document.form.gravar.disabled = true;
+                    } else {
+                        document.form.gravar.disabled = false;
+                    }
+                }
                 function atualiza(idMod) {
 
-                    window.location.assign("mostraConsumidorAterado?id=" +${consumidor.id} + "&idModalidade=" + idMod + "&nome=" + $('#nome').val() + "&grr=" + $('#grr').val()+"&ativo="+$('#ativo').val());
+                    window.location.assign("mostraConsumidorAterado?id=" +${consumidor.id} + "&idModalidade=" + idMod + "&nome=" + $('#nome').val() + "&grr=" + $('#grr').val() + "&ativo=" + $('#ativo').val());
 
                     //$.get("novoConsumidor?id=" + idMod);
 
