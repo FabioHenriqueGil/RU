@@ -65,7 +65,7 @@ public class ModalidadeDao implements IDao<Modalidade> {
 
     @Override
     public void alterar(Modalidade obj) {
-        String sqlVBDel = "delete from VinculosBloqueados where Modalidade_id=" + obj.getId();
+        String sqlVBDel = "DELETE FROM VinculosBloqueados WHERE modalidade_id=" + obj.getId();
         String sqlVB = "insert into VinculosBloqueados (Vinculo_id, Modalidade_id) values (?, ?)";
         String sql = "update Modalidade set descricao=?, ativo=? where id=" + obj.getId();
         try {
@@ -82,6 +82,7 @@ public class ModalidadeDao implements IDao<Modalidade> {
                 for (Vinculo vb : obj.getVinculosBloqueados()) {
                     stmtVB.setInt(1, vb.getId());
                     stmtVB.setInt(2, obj.getId());
+                    System.out.println("br.ufpr.ru.dao.ModalidadeDao.alterar()"+sqlVB+" "+ vb.getId()+" "+obj.getId());
                     stmtVB.execute();
                 }
             }

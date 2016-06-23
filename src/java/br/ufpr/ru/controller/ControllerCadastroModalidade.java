@@ -9,6 +9,8 @@ import br.ufpr.ru.logica.LogicaModalidade;
 import br.ufpr.ru.logica.LogicaVinculo;
 import br.ufpr.ru.modelo.Modalidade;
 import br.ufpr.ru.modelo.Vinculo;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -30,12 +32,19 @@ public class ControllerCadastroModalidade {
     }
 
     @RequestMapping("adicionaModalidade")
-    public String adiciona(Modalidade modalidade) {
+    public String adiciona(Modalidade modalidade, String vinculosBloqueados) {
         LogicaModalidade logica = new LogicaModalidade();
-        
-        
-        
-        //modalidade.setVinculosBloqueados(bloqueados);     por fazer
+        LogicaVinculo lv = new LogicaVinculo();
+        List<Vinculo> listaVinculos = new ArrayList<>();
+        String[] vbArray = vinculosBloqueados.split(",");
+
+        for (String string : vbArray) {
+            System.out.println("br.ufpr.ru.controller.ControllerCadastroModalidade.adiciona()" + string);
+            listaVinculos.add(lv.buscaVinculo(Integer.parseInt(string)));
+
+        }
+        modalidade.setVinculosBloqueados(listaVinculos);
+
         logica.cadastraModalidade(modalidade);
         return "redirect:listaModalidades";
     }
@@ -54,7 +63,7 @@ public class ControllerCadastroModalidade {
     @RequestMapping("mostraModalidade")
     public String mostraModalidade(int id, Model model) {
         LogicaModalidade logicaModalidade = new LogicaModalidade();
-        LogicaVinculo logicaVinculo =  new LogicaVinculo();
+        LogicaVinculo logicaVinculo = new LogicaVinculo();
         model.addAttribute("modalidade", logicaModalidade.buscaModalidade(id));
         model.addAttribute("vinculos", logicaVinculo.lista(logicaModalidade.buscaModalidade(id)));
 
@@ -63,9 +72,19 @@ public class ControllerCadastroModalidade {
     }
 
     @RequestMapping("alteraModalidade")
-    public String alteraModalidade(Modalidade modalidade) {
+    public String alteraModalidade(Modalidade modalidade, String vinculosBloqueados) {
         LogicaModalidade logica = new LogicaModalidade();
-        
+        LogicaVinculo lv = new LogicaVinculo();
+        List<Vinculo> listaVinculos = new ArrayList<>();
+        String[] vbArray = vinculosBloqueados.split(",");
+
+        for (String string : vbArray) {
+            System.out.println("br.ufpr.ru.controller.ControllerCadastroModalidade.adiciona()" + string);
+            listaVinculos.add(lv.buscaVinculo(Integer.parseInt(string)));
+
+        }
+        modalidade.setVinculosBloqueados(listaVinculos);
+
         logica.alteraModalidade(modalidade);
         return "redirect:listaModalidades";
     }
