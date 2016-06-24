@@ -15,11 +15,20 @@ public class Produto {
     private String descricao;
     private double precoPadrao;
     private double precoVenda;
+    private boolean ativo = false;
+
+    public boolean isAtivo() {
+        return ativo;
+    }
 
     public Produto( String descricao, double precoPadrao) {
         this.descricao = descricao;
         this.precoPadrao = precoPadrao;
 
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
     public Produto() {

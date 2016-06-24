@@ -17,7 +17,7 @@
 
         <div class="container">
             <div class="panel panel-primary">
-                <div class="panel-heading" align="center">Lista de Modalidades</div>
+                <div class="panel-heading" align="center">Lista de Produtos</div>
 
                 <div class="panel panel-primary">
                     <div class="table-responsive">
@@ -26,25 +26,27 @@
 
 
                                 <td><b>ID</b></td>
-                                <td><b>Descrição</b></td>
+                                <td><b>Descrição</b></td> 
+                                <td><b>Preço</b></td>                                
                                 <td><b>Ativo</b></td>
                                 <td><b>Alterar</b></td>
                             </tr>
 
 
-                            <c:forEach items="${modalidades}" var="modalidade">
+                            <c:forEach items="${produtos}" var="produto">
                                 <tr>
-                                    <td>${modalidade.id}</td>
-                                    <td>${modalidade.descricao}</td>
-                                    <c:if test="${modalidade.ativo eq false}">
+                                    <td>${produto.id}</td>
+                                    <td>${produto.descricao}</td>
+                                    <td>${produto.precoPadrao}</td>
+                                    <c:if test="${produto.ativo eq false}">
                                         <td>Inativo</td>
 
                                     </c:if>
-                                    <c:if test="${modalidade.ativo eq true}">
+                                    <c:if test="${produto.ativo eq true}">
                                         <td>Ativo</td>
 
                                     </c:if>
-                                    <td><a href="mostraModalidade?id=${modalidade.id}">Alterar</td>
+                                    <td><a href="mostraProduto?id=${produto.id}">Alterar</td>
 
                                 </tr>
                             </c:forEach>
@@ -56,7 +58,7 @@
                             onclick="window.location.href = 'cadastro';">Voltar
                     </button>
                     <button class="btn btn-primary"
-                            onclick="window.location.href = 'novaModalidade';">ADD
+                            onclick="window.location.href = 'novoProduto';">ADD
                     </button>
                 </div>
             </div>
@@ -75,17 +77,5 @@
                                 });
                     }
                 </script>-->
-
-
-        <script type="text/javascript" >
-            function finalizarAgora(id) {
-                $.get("finalizarTarefa?id=" + id, function () {
-                    alert("Tarefa Finalizada ");
-                    $("#tarefa_" + id).html("Finalizada Com Ajax");
-
-                });
-
-            }
-        </script>
     </body>
 </html>
