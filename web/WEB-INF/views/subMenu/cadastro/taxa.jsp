@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
     <head>
-        <title> Lista Vinculos</title>
+        <title> Lista Taxas</title>
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
 
         <!--        <script src="js/bootstrap.min.js"/>-->
@@ -17,7 +17,7 @@
 
         <div class="container">
             <div class="panel panel-primary">
-                <div class="panel-heading" align="center">Lista de Vinculos</div>
+                <div class="panel-heading" align="center">Lista de Taxas</div>
 
                 <div class="panel panel-primary">
                     <div class="table-responsive">
@@ -25,26 +25,20 @@
                             <tr>
 
 
-                                <td><b>ID</b></td>
-                                <td><b>Descrição</b></td>
-                                <td><b>Ativo</b></td>
+                                <td><b>Modalidade</b></td>
+                                <td><b>Produto</b></td>
+                                <td><b>Valor de Subsidio</b></td>
                                 <td><b>Alterar</b></td>
                             </tr>
 
 
-                            <c:forEach items="${vinculos}" var="vinculo">
+                            <c:forEach items="${taxas}" var="taxa">
                                 <tr>
-                                    <td>${vinculo.id}</td>
-                                    <td>${vinculo.descricao}</td>
-                                    <c:if test="${vinculo.ativo eq false}">
-                                        <td>Inativo</td>
 
-                                    </c:if>
-                                    <c:if test="${vinculo.ativo eq true}">
-                                        <td>Ativo</td>
-
-                                    </c:if>
-                                    <td><a href="mostraVinculo?id=${vinculo.id}">Alterar</td>
+                                    <td>${taxa.modalidade.id}</td>
+                                    <td>${taxa.produto.id}</td>
+                                    <td>${taxa.desconto}</td>
+                                    <td><a href="mostraTaxa?modalidade_id=${taxa.modalidade.id}& produto_id="${taxa.produto.id}>Alterar</td>
 
                                 </tr>
                             </c:forEach>
@@ -56,7 +50,7 @@
                             onclick="window.location.href = 'cadastro';">Voltar
                     </button>
                     <button class="btn btn-success "
-                            onclick="window.location.href = 'novoVinculo';">ADD
+                            onclick="window.location.href = 'novaTaxa';">ADD
                     </button>
                 </div>
             </div>

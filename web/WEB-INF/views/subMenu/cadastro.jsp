@@ -31,18 +31,27 @@
 
                     </div>
                 
-                    <div class="panel panel-primary col-lg-6" align="center">
+                    <div class="panel panel-primary col-lg-4" align="center">
                         <br>
                         <a href="listaConsumidores" class="btn btn-success btn-lg">Consumidor</a>
                         <br><br>
 
                     </div>
-                    <div class="panel panel-primary col-lg-6" align="center">
+                    <div class="panel panel-primary col-lg-4" align="center">
                         <br>
                         <a href="listaProdutos" class="btn btn-success btn-lg">Produto</a>
                         <br><br>
 
                     </div>
+                    
+                    
+                     <div class="panel panel-primary col-lg-4" align="center">
+                        <br>
+                        <a href="listaTaxas" class="btn btn-success btn-lg">Taxa de Subsídio</a>
+                        <br><br>
+
+                    </div>
+                    
 
                 </div >
                 <div align="center">
