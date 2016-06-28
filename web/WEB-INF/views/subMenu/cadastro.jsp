@@ -25,7 +25,7 @@
                     </div>
                     <div class="panel panel-primary col-lg-6" align="center">
                         <br>
-                        <a href="listaVinculos" class="btn btn-primary btn-lg">Vinculo</a>
+                        <a href="listaVinculos" class="btn btn-success btn-lg">Vinculo</a>
                         <br><br>
 
 
@@ -33,13 +33,13 @@
                 
                     <div class="panel panel-primary col-lg-6" align="center">
                         <br>
-                        <a href="listaConsumidores" class="btn btn-warning btn-lg">Consumidor</a>
+                        <a href="listaConsumidores" class="btn btn-success btn-lg">Consumidor</a>
                         <br><br>
 
                     </div>
                     <div class="panel panel-primary col-lg-6" align="center">
                         <br>
-                        <a href="listaProdutos" class="btn btn-danger btn-lg">Produto</a>
+                        <a href="listaProdutos" class="btn btn-success btn-lg">Produto</a>
                         <br><br>
 
                     </div>

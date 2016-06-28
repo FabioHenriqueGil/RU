@@ -55,7 +55,7 @@
                     <button class="btn btn-danger"
                             onclick="window.location.href = 'cadastro';">Voltar
                     </button>
-                    <button class="btn btn-primary"
+                    <button class="btn btn-success"
                             onclick="window.location.href = 'novaModalidade';">ADD
                     </button>
                 </div>

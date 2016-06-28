@@ -23,19 +23,19 @@
                     </div>
                     <div class="panel panel-primary col-lg-6" align="center">
                         <br>
-                        <a href="relatorio" class="btn btn-primary btn-lg">Relatório</a>
+                        <a href="relatorio" class="btn btn-success btn-lg">Relatório</a>
                         <br><br>
                     </div>
 
                     <div class="panel panel-primary col-lg-6" align="center">
                         <br>
-                        <a href="vendas" class="btn btn-warning btn-lg">Vendas</a>
+                        <a href="vendas" class="btn btn-success btn-lg">Vendas</a>
                         <br><br>
 
                     </div>
                     <div class="panel panel-primary col-lg-6" align="center">
                         <br>
-                        <a href="caixa" class="btn btn-danger btn-lg">Caixa</a>
+                        <a href="caixa" class="btn btn-success btn-lg">Caixa</a>
                         <br><br>
 
                     </div>
