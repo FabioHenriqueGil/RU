@@ -29,10 +29,7 @@ public class ControllerRedirect {
         return "subMenu/cadastro";
     }
 
-    @RequestMapping("vendas")
-    public String vendas() {
-        return "subMenu/vendas";
-    }
+   
 
 //    @RequestMapping("caixa")
 //    public String caixa(Model model) {
