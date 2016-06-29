@@ -10,28 +10,29 @@ package br.ufpr.ru.modelo;
  * @author fabio
  */
 public class Produto {
-    
-     private int id;
+
+    private int id;
     private String descricao;
     private double precoPadrao;
     private double precoVenda;
     private boolean ativo = false;
+    private int qtd = 1;
 
-    public boolean isAtivo() {
-        return ativo;
-    }
-
-    public Produto( String descricao, double precoPadrao) {
+    public Produto(String descricao, double precoPadrao) {
         this.descricao = descricao;
         this.precoPadrao = precoPadrao;
 
     }
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    public Produto() {
     }
 
-    public Produto() {
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
     public int getId() {
@@ -65,7 +66,13 @@ public class Produto {
     public void setPrecoVenda(double precoVenda) {
         this.precoVenda = precoVenda;
     }
-    
-    
-    
+
+    public int getQtd() {
+        return qtd;
+    }
+
+    public void setQtd(int qtd) {
+        this.qtd = qtd;
+    }
+
 }

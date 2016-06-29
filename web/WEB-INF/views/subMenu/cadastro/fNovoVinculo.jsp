@@ -17,25 +17,44 @@
     </head>
     <body>
 
-        <form role="form" action="adicionaVinculo" method="POST">
+        <form id="form" name="form" role="form" action="adicionaVinculo" method="POST">
             <div class="container">
                 <div class="panel panel-primary">
-                    <div class="panel-heading" align="center"><h2>Cadastro</h2></div>
+                    <div class="panel-heading" align="center"><h2>Cadastro Vinculo</h2></div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="descricao">Descrição:</label> <input type="text"
-                                                                             class="form-control" name="descricao" id="nome">
+                            <label for="descricao">Descrição:</label> 
+                            <input type="text" onblur="botaoGravar()"
+                                   class="form-control" name="descricao" id="descricao">
                         </div>
-                       
 
 
 
-                        <button type="submit" class="btn btn-primary">Gravar</button>
+
+                        <button id="gravar" type="submit" class="btn btn-primary">Gravar</button>
                         <button type="button" class="btn btn-primary"
                                 onclick="window.location.href = 'listaVinculos';">Cancelar</button>
                     </div>
                 </div>
             </div>
+            <script type="text/javascript">
+                function botaoGravar() {
+                    if ($('#descricao').val() == '') {
+                        document.form.gravar.disabled = true;
+                    } else {
+                        document.form.gravar.disabled = false;
+                    }
+                }
+
+
+                window.onload = function () {
+                    if ($('#descricao').val() == '') {
+                        document.form.gravar.disabled = true;
+                    } else {
+                        document.form.gravar.disabled = false;
+                    }
+                }
+            </script>
         </form>
     </body>
 </html>

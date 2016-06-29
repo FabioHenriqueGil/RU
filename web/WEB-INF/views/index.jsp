@@ -35,7 +35,7 @@
                     </div>
                     <div class="panel panel-primary col-lg-6" align="center">
                         <br>
-                        <a href="caixa" class="btn btn-success btn-lg">Caixa</a>
+                        <a href="listaCaixas" class="btn btn-success btn-lg">Caixa</a>
                         <br><br>
 
                     </div>

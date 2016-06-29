@@ -35,10 +35,10 @@
                             <c:forEach items="${taxas}" var="taxa">
                                 <tr>
 
-                                    <td>${taxa.modalidade.id}</td>
-                                    <td>${taxa.produto.id}</td>
+                                    <td>${taxa.modalidade.descricao}</td>
+                                    <td>${taxa.produto.descricao}</td>
                                     <td>${taxa.desconto}</td>
-                                    <td><a href="mostraTaxa?modalidade_id=${taxa.modalidade.id}& produto_id="${taxa.produto.id}>Alterar</td>
+                                    <td><a href="mostraTaxa?modalidade_id=${taxa.modalidade.id}&produto_id=${taxa.produto.id}">Alterar</td>
 
                                 </tr>
                             </c:forEach>
@@ -57,29 +57,5 @@
         </div>
 
 
-
-
-
-
-        <!--        <script type="text/javascript">
-                    function finalizaAgora(id) {
-                        $.get("finalizarTarefa?id=" + id,
-                                function (resposta) {
-                                    $("#tarefa_" + id).html(resposta);
-                                });
-                    }
-                </script>-->
-
-
-        <script type="text/javascript" >
-            function finalizarAgora(id) {
-                $.get("finalizarTarefa?id=" + id, function () {
-                    alert("Tarefa Finalizada ");
-                    $("#tarefa_" + id).html("Finalizada Com Ajax");
-
-                });
-
-            }
-        </script>
     </body>
 </html>

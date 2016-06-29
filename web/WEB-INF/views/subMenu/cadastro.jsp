@@ -13,24 +13,22 @@
     <body>
         <div class="container">
             <div class="panel panel-primary">
-
                 <div class="panel-heading" align="center"><h1>Cadastro</h1></div>
                 <br><br>
                 <div class="panel panel-primary col-sm-12">
-
-                    <div class="panel panel-primary col-lg-6" align="center">
-                        <br>
-                        <a href="listaModalidades" class="btn btn-success btn-lg" >Modalidade</a>
-                        <br><br>
-                    </div>
-                    <div class="panel panel-primary col-lg-6" align="center">
+                    <div class="panel panel-primary col-lg-4" align="center">
                         <br>
                         <a href="listaVinculos" class="btn btn-success btn-lg">Vinculo</a>
                         <br><br>
 
 
                     </div>
-                
+                    <div class="panel panel-primary col-lg-4" align="center">
+                        <br>
+                        <a href="listaModalidades" class="btn btn-success btn-lg" >Modalidade</a>
+                        <br><br>
+                    </div>
+
                     <div class="panel panel-primary col-lg-4" align="center">
                         <br>
                         <a href="listaConsumidores" class="btn btn-success btn-lg">Consumidor</a>
@@ -43,15 +41,21 @@
                         <br><br>
 
                     </div>
-                    
-                    
-                     <div class="panel panel-primary col-lg-4" align="center">
+
+                    <div class="panel panel-primary col-lg-4" align="center">
                         <br>
                         <a href="listaTaxas" class="btn btn-success btn-lg">Taxa de Subsídio</a>
                         <br><br>
 
                     </div>
-                    
+                     <div class="panel panel-primary col-lg-4" align="center">
+                        <br>
+                        <a href="listaTiposDeReceitas" class="btn btn-success btn-lg">Tipo de Receita</a>
+                        <br><br>
+
+
+                    </div>
+
 
                 </div >
                 <div align="center">

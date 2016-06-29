@@ -24,12 +24,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ControllerTaxa {
 
     @RequestMapping("novaTaxa")
-    public String form(Model model, Double desconto,Integer modalidade_id) {
+    public String form(Model model, Double desconto, Integer modalidade_id) {
         LogicaProduto lp = new LogicaProduto();
         LogicaModalidade lm = new LogicaModalidade();
         model.addAttribute("modalidades", lm.listaAtivos());
         model.addAttribute("desconto", desconto);
-       
 
         if (modalidade_id != null) {
             Modalidade modalidade = lm.buscaModalidade(modalidade_id);
@@ -42,15 +41,22 @@ public class ControllerTaxa {
     }
 
     @RequestMapping("adicionaTaxa")
-    public String adiciona(TaxaDeSubsidio taxa,Integer modalidade_id, Integer produto_id) {
+    public String adiciona(Model model, TaxaDeSubsidio taxa, Integer modalidade_id, Integer produto_id) {
         LogicaTaxaDeSubsidio logica = new LogicaTaxaDeSubsidio();
         LogicaModalidade lm = new LogicaModalidade();
-        LogicaProduto lp =new LogicaProduto();
+        LogicaProduto lp = new LogicaProduto();
         taxa.setModalidade(lm.buscaModalidade(modalidade_id));
         taxa.setProduto(lp.buscaProduto(produto_id));
+        if (logica.buscaTaxa(modalidade_id, produto_id).getModalidade() == null) {
+            logica.cadastraTaxa(taxa);
+            return "redirect:listaTaxas";
+        } else {
+            model.addAttribute("taxa", logica.buscaTaxa(modalidade_id, produto_id));
 
-        logica.cadastraTaxa(taxa);
-        return "redirect:listaTaxas";
+            model.addAttribute("flagInsert", true);
+            return "subMenu/cadastro/fAltTaxa";
+        }
+
     }
 
     @RequestMapping("listaTaxas")
@@ -62,19 +68,23 @@ public class ControllerTaxa {
         return "subMenu/cadastro/taxa";
     }
 
-    @RequestMapping("mostraTaxas")
-    public String mostraTaxa(int modalidade_id, int produto_id, Model model) {
+    @RequestMapping("mostraTaxa")
+    public String mostraTaxa(Integer modalidade_id, Integer produto_id, Model model) {
+        System.out.println("br.ufpr.ru.controller.ControllerTaxa.mostraTaxa() "+modalidade_id);
+        System.out.println("br.ufpr.ru.controller.ControllerTaxa.mostraTaxa() "+produto_id);
         LogicaTaxaDeSubsidio logica = new LogicaTaxaDeSubsidio();
         model.addAttribute("taxa", logica.buscaTaxa(modalidade_id, produto_id));
-
         return "subMenu/cadastro/fAltTaxa";
 
     }
 
     @RequestMapping("alteraTaxa")
-    public String alteraTaxa(TaxaDeSubsidio taxa) {
+    public String alteraTaxa(TaxaDeSubsidio taxa, Integer modalidade_id, Integer produto_id) {
         LogicaTaxaDeSubsidio logica = new LogicaTaxaDeSubsidio();
-
+        LogicaModalidade lm = new LogicaModalidade();
+        LogicaProduto lp = new LogicaProduto();
+        taxa.setModalidade(lm.buscaModalidade(modalidade_id));
+        taxa.setProduto(lp.buscaProduto(produto_id));
         logica.alteraTaxa(taxa);
         return "redirect:listaTaxas";
     }

@@ -13,15 +13,15 @@ import java.util.List;
  * @author fabio
  */
 public interface CrudTaxaDeSubsidio {
-    
-     void cadastraTaxa(TaxaDeSubsidio taxa);
+
+    void cadastraTaxa(TaxaDeSubsidio taxa);
 
     void alteraTaxa(TaxaDeSubsidio taxa);
 
     TaxaDeSubsidio buscaTaxa(int modalidade_id, int vinculo_id);
 
     List<TaxaDeSubsidio> lista();
-    
+
     List<TaxaDeSubsidio> listaAtivos();
-    
+
 }

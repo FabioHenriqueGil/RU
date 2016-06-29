@@ -13,23 +13,37 @@
         <!-- <script src="js/jquery/jquery-1.9.1.js"></script> -->
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-
+        <script language='JavaScript'>
+            function SomenteNumero(e) {
+                var tecla = (window.event) ? event.keyCode : e.which;
+                if ((tecla > 47 && tecla < 58))
+                    return true;
+                else {
+                    if (tecla == 8 || tecla == 0 || tecla == 46)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+        </script>
     </head>
     <body>
 
-        <form role="form" action="alteraProduto" method="POST">
+        <form id="form" name="form" role="form" action="alteraProduto" method="POST">
             <input type="hidden" name="id" value="${produto.id}">
             <div class="container">
                 <div class="panel panel-primary">
                     <div class="panel-heading" align="center"><h2>Alterar</h2></div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="descricao">Descrição:</label> <input type="text"
-                                                                             value="${produto.descricao}" class="form-control" name="descricao" id="descricao">
+                            <label for="descricao">Descrição:</label>
+                            <input type="text" onblur="botaoGravar()" 
+                                   value="${produto.descricao}" class="form-control" name="descricao" id="descricao">
                         </div>
                         <div class="form-group">
-                            <label for="descricao">Preço:</label> <input type="text"
-                                                                         value="${produto.precoPadrao}" class="form-control" name="precoPadrao" id="precoPadrao">
+                            <label for="descricao">Preço:</label> 
+                            <input type="text" onblur="botaoGravar()" onkeypress='return SomenteNumero(event)'
+                                   value="${produto.precoPadrao}" class="form-control" name="precoPadrao" id="precoPadrao">
                         </div>
                         <div>
                             <label for="ativo">Ativo: </label>
@@ -51,12 +65,30 @@
 
 
 
-                        <button type="submit" class="btn btn-primary">Gravar</button>
+                        <button id="gravar" type="submit" class="btn btn-primary">Gravar</button>
                         <button type="button" class="btn btn-primary"
-                                onclick="window.location.href = 'listaproduto';">Cancelar</button>
+                                onclick="window.location.href = 'listaProdutos';">Cancelar</button>
                     </div>
                 </div>
             </div>
+            <script type="text/javascript">
+                function botaoGravar() {
+                    if (($('#descricao').val() == '')||($('#precoPadrao').val() == '')) {
+                        document.form.gravar.disabled = true;
+                    } else {
+                        document.form.gravar.disabled = false;
+                    }
+                }
+
+
+                window.onload = function () {
+                    if (($('#descricao').val() == '')||($('#precoPadrao').val() == '')) {
+                        document.form.gravar.disabled = true;
+                    } else {
+                        document.form.gravar.disabled = false;
+                    }
+                }
+            </script>
         </form>
     </body>
 </html>

@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
     <head>
-        <title> Controle de Caixa</title>
+        <title> Lista Vinculos</title>
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
 
         <!--        <script src="js/bootstrap.min.js"/>-->
@@ -17,7 +17,7 @@
 
         <div class="container">
             <div class="panel panel-primary">
-                <div class="panel-heading" align="center">Controle de Caixa</div>
+                <div class="panel-heading" align="center">Lista de Tipos de Receitas</div>
 
                 <div class="panel panel-primary">
                     <div class="table-responsive">
@@ -26,14 +26,25 @@
 
 
                                 <td><b>ID</b></td>
-                                <td><b>Saldo</b></td>
+                                <td><b>Descrição</b></td>
+                                <td><b>Crédito</b></td>
+                                <td><b>Alterar</b></td>
                             </tr>
 
 
-                            <c:forEach items="${caixas}" var="caixa">
+                            <c:forEach items="${tipos}" var="tipo">
                                 <tr>
-                                    <td>${caixa.id}</td>
-                                    <td>${caixa.saldo}</td>
+                                    <td>${tipo.id}</td>
+                                    <td>${tipo.descricao}</td>
+                                    <c:if test="${tipo.credito eq true}">
+                                        <td>Crédito</td>
+
+                                    </c:if>
+                                    <c:if test="${tipo.credito eq false}">
+                                        <td>Caixa</td>
+
+                                    </c:if>
+                                    <td><a href="mostraTipoDeReceita?id=${tipo.id}">Alterar</td>
 
                                 </tr>
                             </c:forEach>
@@ -42,39 +53,14 @@
                 </div>
                 <div align="center">
                     <button class="btn btn-danger"
-                            onclick="window.location.href = 'inicio';">Voltar
+                            onclick="window.location.href = 'cadastro';">Voltar
                     </button>
                     <button class="btn btn-success "
-                            onclick="window.location.href = 'novoCaixa';">ADD
+                            onclick="window.location.href = 'novoTipoDeReceita';">ADD
                     </button>
                 </div>
             </div>
         </div>
 
-
-
-
-
-
-        <!--        <script type="text/javascript">
-                    function finalizaAgora(id) {
-                        $.get("finalizarTarefa?id=" + id,
-                                function (resposta) {
-                                    $("#tarefa_" + id).html(resposta);
-                                });
-                    }
-                </script>-->
-
-
-        <script type="text/javascript" >
-            function finalizarAgora(id) {
-                $.get("finalizarTarefa?id=" + id, function () {
-                    alert("Tarefa Finalizada ");
-                    $("#tarefa_" + id).html("Finalizada Com Ajax");
-
-                });
-
-            }
-        </script>
     </body>
 </html>

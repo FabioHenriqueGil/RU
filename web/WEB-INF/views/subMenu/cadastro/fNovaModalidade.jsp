@@ -17,14 +17,15 @@
     </head>
     <body>
 
-<!--       <form role="form" action="adicionaModalidade" method="POST">-->
+<!--        <form role="form" id="form" name="form" action="" method="POST">-->
             <div class="container">
                 <div class="panel panel-primary">
                     <div class="panel-heading" align="center"><h2>Cadastro</h2></div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="descricao">Descrição:</label> <input type="text"
-                                                                             class="form-control" name="descricao" id="descricao">
+                            <label for="descricao">Descrição:</label> 
+                            <input type="text" onblur="botaoGravar()"
+                                   class="form-control" name="descricao" id="descricao">
                         </div>
                         <div id="checkDiv" class="panel-body">
                             <div class="panel-heading" >Vinculos Bloqueados</div>
@@ -41,14 +42,30 @@
 
                         </div>
 
-                        <button type="button" class="btn btn-primary" onclick="gravar()">Gravar</button>
+                        <button id="gravar" type="button" class="btn btn-primary" onclick="gravar()">Gravar</button>
                         <button type="button" class="btn btn-primary"
                                 onclick="window.location.href = 'listaModalidades';">Cancelar</button>
                     </div>
                 </div>
             </div>
-<!--        </form>-->
+        <!--</form>-->
         <script type="text/javascript">
+            function botaoGravar() {
+                if ($('#descricao').val() == '') {
+                    document.forms.gravar.disabled = true;
+                } else {
+                    document.forms.gravar.disabled = false;
+                }
+            }
+
+
+            window.onload = function () {
+                if ($('#descricao').val() == '') {
+                    document.forms.gravar.disabled = true;
+                } else {
+                    document.forms.gravar.disabled = false;
+                }
+            }
             function gravar() {
                 var minhaDiv = document.getElementById("checkDiv");
                 var listaMarcados = minhaDiv.getElementsByTagName("INPUT");
@@ -60,8 +77,8 @@
                         //list = new Array(list, item.id);
                     }
                 }
-                
-            window.location.href = "adicionaModalidade?descricao="+$('#descricao').val()+"&vinculosBloqueados="+list ; 
+
+                window.location.href = "adicionaModalidade?descricao=" + $('#descricao').val() + "&vinculosBloqueados=" + list;
             }
 
         </script>

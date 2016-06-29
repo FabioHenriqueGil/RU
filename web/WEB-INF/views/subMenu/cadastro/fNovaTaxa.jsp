@@ -13,7 +13,19 @@
         <!-- <script src="js/jquery/jquery-1.9.1.js"></script> -->
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-
+        <script language='JavaScript'>
+            function SomenteNumero(e) {
+                var tecla = (window.event) ? event.keyCode : e.which;
+                if ((tecla > 47 && tecla < 58))
+                    return true;
+                else {
+                    if (tecla == 8 || tecla == 0 || tecla == 46)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+        </script>
     </head>
     <body>
 
@@ -23,10 +35,11 @@
                     <div class="panel-heading" align="center"><h2>Cadastro</h2></div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label  for="desconto">Desconto: </label> <input onblur="botaoGravar()" type="number" value="${desconto}"
-                                                                    class="form-control" name="desconto" id="desconto">
+                            <label  for="desconto">Desconto: </label> 
+                            <input onblur="botaoGravar()" value="${desconto}" onkeypress='return SomenteNumero(event)'
+                                   class="form-control" name="desconto" id="desconto">
                         </div>
-                        
+
 
                         <div class="form-group" align="center">
                             <select name="modalidade_id" id="modalidade_id" class="list-group center-block" >
@@ -93,7 +106,7 @@
                 }
                 function atualiza(idMod) {
 
-                    window.location.assign("novaTaxa?desconto=" + $('#desconto').val() +"&modalidade_id=" + idMod );
+                    window.location.assign("novaTaxa?desconto=" + $('#desconto').val() + "&modalidade_id=" + idMod);
                     //$.get("novoConsumidor?id=" + idMod);
 
                     // $("#produtosDiv").html(idMod);

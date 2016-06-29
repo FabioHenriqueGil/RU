@@ -17,61 +17,78 @@
     </head>
     <body>
 
-        <!--        <form role="form" action="alteraModalidade" method="POST">-->
-        <input type="hidden" id="id" name="id" value="${modalidade.id}">
-        <div class="container">
-            <div class="panel panel-primary">
-                <div class="panel-heading" align="center"><h2>Alterar</h2></div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label for="descricao">Descrição:</label> <input type="text"
-                                                                         value="${modalidade.descricao}" class="form-control" name="descricao" id="descricao">
-                    </div>
-                    <div>
-                        <label for="ativo">Ativo: </label>
+<!--        <form role="form" id="form" name="form" action="" method="POST">-->
+            <input type="hidden" id="id" name="id" value="${modalidade.id}">
+            <div class="container">
+                <div class="panel panel-primary">
+                    <div class="panel-heading" align="center"><h2>Alterar</h2></div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="descricao">Descrição:</label> 
+                            <input type="text" onblur="botaoGravar()"   
+                                   value="${modalidade.descricao}" class="form-control" name="descricao" id="descricao">
+                        </div>
+                        <div>
+                            <label for="ativo">Ativo: </label>
                             <input class=" checkbox-inline" type="checkbox"
                                    name="ativo" id="ativo" value="${modalidade.ativo}"  ${modalidade.ativo? 'checked' : ''} onclick="refreshCheckBox(this)"/>
-                           
+
+                        </div>
+                        <div id="checkDiv" class="panel-body">
+                            <div class="panel-heading" >Vinculos Bloqueados</div>
+
+
+                            <c:forEach items="${modalidade.vinculosBloqueados}" var="vinculo">
+                                <input type="checkbox" id="${vinculo.id}" 
+                                       name="${modalidade.vinculosBloqueados}" checked="true">
+                                <label for="${vinculo.id}">
+                                    ${vinculo.descricao}
+                                </label>
+                                <br />
+
+                            </c:forEach>
+                            <c:forEach items="${vinculos}" var="vinculo">
+                                <input type="checkbox" id="${vinculo.id}" 
+                                       name="${vinculos}">
+                                <label for="${vinculo.id}">
+                                    ${vinculo.descricao}
+                                </label>
+                                <br />
+
+                            </c:forEach>
+
+
+                        </div>
+
+
+
+                        <button id="gravar" type="button" class="btn btn-primary" onclick="gravar()" >Gravar</button>
+                        <button type="button" class="btn btn-primary"
+                                onclick="window.location.href = 'listaModalidades';">Cancelar</button>
                     </div>
-                    <div id="checkDiv" class="panel-body">
-                        <div class="panel-heading" >Vinculos Bloqueados</div>
-
-
-                        <c:forEach items="${modalidade.vinculosBloqueados}" var="vinculo">
-                            <input type="checkbox" id="${vinculo.id}" 
-                                   name="${modalidade.vinculosBloqueados}" checked="true">
-                            <label for="${vinculo.id}">
-                                ${vinculo.descricao}
-                            </label>
-                            <br />
-
-                        </c:forEach>
-                        <c:forEach items="${vinculos}" var="vinculo">
-                            <input type="checkbox" id="${vinculo.id}" 
-                                   name="${vinculos}">
-                            <label for="${vinculo.id}">
-                                ${vinculo.descricao}
-                            </label>
-                            <br />
-
-                        </c:forEach>
-
-
-                    </div>
-
-
-
-                    <button type="button" class="btn btn-primary" onclick="gravar()" >Gravar</button>
-                    <button type="button" class="btn btn-primary"
-                            onclick="window.location.href = 'listaModalidades';">Cancelar</button>
                 </div>
             </div>
-        </div>
-        <!--        </form>-->
+<!--        </form>-->
         <script type="text/javascript">
-            function refreshCheckBox(checkbox){
-                checkbox.value=checkbox.checked;
-                
+            function botaoGravar() {
+                if ($('#descricao').val() == '') {
+                    document.forms.gravar.disabled = true;
+                } else {
+                    document.forms.gravar.disabled = false;
+                }
+            }
+
+
+            window.onload = function () {
+                if ($('#descricao').val() == '') {
+                    document.forms.gravar.disabled = true;
+                } else {
+                    document.forms.gravar.disabled = false;
+                }
+            }
+            function refreshCheckBox(checkbox) {
+                checkbox.value = checkbox.checked;
+
             }
             function gravar() {
                 var minhaDiv = document.getElementById("checkDiv");

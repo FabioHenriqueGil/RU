@@ -5,7 +5,11 @@
  */
 package br.ufpr.ru.controller;
 
+import br.ufpr.ru.logica.LogicaCaixa;
+import br.ufpr.ru.modelo.Caixa;
+import java.util.List;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -30,14 +34,18 @@ public class ControllerRedirect {
         return "subMenu/vendas";
     }
 
-    @RequestMapping("caixa")
-    public String caixa() {
-        return "subMenu/caixa";
-    }
+//    @RequestMapping("caixa")
+//    public String caixa(Model model) {
+//        LogicaCaixa logica = new LogicaCaixa();
+//        List<Caixa> caixas = logica.lista();
+//
+//        model.addAttribute("caixas", caixas);
+//        return "subMenu/caixa";
+//    }
 
     @RequestMapping("relatorio")
     public String relatorio() {
         return "subMenu/relatorio";
     }
-    
+
 }

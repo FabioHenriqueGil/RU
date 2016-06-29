@@ -17,27 +17,27 @@
     </head>
     <body>
 
-        <form id="form" name="form" role="form" action="alteraVinculo" method="POST">
-            <input type="hidden" name="id" value="${vinculo.id}">
+        <form id="form" name="form" role="form" action="alteraTipoDeReceita" method="POST">
+            <input type="hidden" name="id" value="${tipo.id}">
             <div class="container">
                 <div class="panel panel-primary">
-                    <div class="panel-heading" align="center"><h2>Alterar Vinculo</h2></div>
+                    <div class="panel-heading" align="center"><h2>Alterar Tipo de Receita</h2></div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="descricao">Descrição:</label> 
                             <input type="text" onblur="botaoGravar()"
-                                   value="${vinculo.descricao}" class="form-control" name="descricao" id="descricao">
+                                   value="${tipo.descricao}" class="form-control" name="descricao" id="descricao">
                         </div>
                         <div>
-                            <label for="ativo">Ativo: </label>
-                            <c:if test="${vinculo.ativo eq true}">
+                            <label for="credito">Crédito: </label>
+                            <c:if test="${tipo.credito eq true}">
                                 <input class=" checkbox-inline" type="checkbox"
-                                       name="ativo" id="ativo"  checked>
+                                       name="credito" id="credito"  checked>
 
                             </c:if>
-                            <c:if test="${vinculo.ativo eq false}">
+                            <c:if test="${tipo.credito eq false}">
                                 <input class=" checkbox-inline" type="checkbox"
-                                       name="ativo" id="ativo"  >
+                                       name="credito" id="credito"  >
 
                             </c:if>
 
@@ -50,7 +50,7 @@
 
                         <button id="gravar" type="submit" class="btn btn-primary">Gravar</button>
                         <button type="button" class="btn btn-primary"
-                                onclick="window.location.href = 'listaVinculos';">Cancelar</button>
+                                onclick="window.location.href = 'listaTiposDeReceitas';">Cancelar</button>
                     </div>
                 </div>
             </div>
