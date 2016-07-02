@@ -10,6 +10,7 @@ import br.ufpr.ru.logica.LogicaVinculo;
 import br.ufpr.ru.modelo.Caixa;
 import br.ufpr.ru.modelo.Vinculo;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ControllerCaixa {
 
+    private LogicaCaixa logicaCaixa;
+@Autowired
+    public ControllerCaixa(LogicaCaixa logicaCaixa) {
+        this.logicaCaixa = logicaCaixa;
+    }
+    
+    
+    
     @RequestMapping("novoCaixa")
     public String form(Model model) {
         return "subMenu/fNovoCaixa";
@@ -28,16 +37,15 @@ public class ControllerCaixa {
 
     @RequestMapping("adicionaCaixa")
     public String adiciona(Caixa caixa) {
-        LogicaCaixa logica = new LogicaCaixa();
-
-        logica.cadastraCaixa(caixa);
+      
+        logicaCaixa.cadastraCaixa(caixa);
         return "redirect:listaCaixas";
     }
 
     @RequestMapping("listaCaixas")
     public String listarCaixa(Model model) {
-        LogicaCaixa logica = new LogicaCaixa();
-        List<Caixa> caixas = logica.lista();
+       
+        List<Caixa> caixas = logicaCaixa.lista();
 
         model.addAttribute("caixas", caixas);
         return "subMenu/caixa";

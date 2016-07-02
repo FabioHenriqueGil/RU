@@ -10,6 +10,7 @@ import br.ufpr.ru.logica.LogicaVenda;
 import br.ufpr.ru.modelo.Consumidor;
 import br.ufpr.ru.modelo.Venda;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +22,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ControllerVenda {
     
+    private LogicaConsumidor logicaConsumidor;
+@Autowired
+    public ControllerVenda(LogicaConsumidor logicaConsumidor) {
+        this.logicaConsumidor = logicaConsumidor;
+    }
+    
+    
     @RequestMapping("vendas")
     public String vendas(Model model) {
-        LogicaConsumidor logica = new LogicaConsumidor();
-        List<Consumidor> consumidores = logica.listarConsumidoresAtivos();
+       
+        List<Consumidor> consumidores = logicaConsumidor.listarConsumidoresAtivos();
 
         model.addAttribute("consumidores", consumidores);
         return "subMenu/vendas/vendas";

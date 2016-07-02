@@ -8,14 +8,24 @@ package br.ufpr.ru.logica;
 import br.ufpr.ru.dao.TaxaDeSubsidioDao;
 import br.ufpr.ru.modelo.TaxaDeSubsidio;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author fabio
  */
+
+@Service
 public class LogicaTaxaDeSubsidio implements CrudTaxaDeSubsidio{
 
-    private TaxaDeSubsidioDao dao = new TaxaDeSubsidioDao();
+    private TaxaDeSubsidioDao dao ;
+    @Autowired
+       public LogicaTaxaDeSubsidio(TaxaDeSubsidioDao dao) {
+        
+        this.dao = dao;
+    }
+    
     
     @Override
     public void cadastraTaxa(TaxaDeSubsidio taxa) {

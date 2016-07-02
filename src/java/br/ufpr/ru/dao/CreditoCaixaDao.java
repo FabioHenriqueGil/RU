@@ -13,18 +13,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author fabio
  */
+
+@Repository
 public class CreditoCaixaDao implements IDao<CreditoCaixa> {
 
     private Connection connection;
 
-    public CreditoCaixaDao() {
-        this.connection = new ConnectionFactory().getConnection();
+    @Autowired
+    public CreditoCaixaDao(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    public CreditoCaixaDao(Connection connection) {
+        this.connection = connection;
+    }
+    
 
     @Override
     public void inserir(CreditoCaixa obj) {

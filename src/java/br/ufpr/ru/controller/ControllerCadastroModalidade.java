@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,35 +25,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ControllerCadastroModalidade {
 
+    
+    
+        private LogicaModalidade logicaModalidade ;
+        private LogicaVinculo logicaVinculo ;
+@Autowired
+    public ControllerCadastroModalidade(LogicaModalidade logicaModalidade, LogicaVinculo logicaVinculo) {
+        this.logicaModalidade = logicaModalidade;
+        this.logicaVinculo = logicaVinculo;
+    }
+    
+    
+    
     @RequestMapping("novaModalidade")
     public String form(Model model) {
-        LogicaVinculo logica = new LogicaVinculo();
-        model.addAttribute("vinculos", logica.listaAtivos());
+        
+        model.addAttribute("vinculos", logicaVinculo.listaAtivos());
         return "subMenu/cadastro/fNovaModalidade";
     }
 
     @RequestMapping("adicionaModalidade")
     public String adiciona(Modalidade modalidade, String vinculosBloqueados) {
-        LogicaModalidade logica = new LogicaModalidade();
-        LogicaVinculo lv = new LogicaVinculo();
+       
         List<Vinculo> listaVinculos = new ArrayList<>();
         String[] vbArray = vinculosBloqueados.split(",");
-
+        if (modalidade.getDescricao() == "") {
+            return "redirect:novaModalidade";
+        }
         for (String string : vbArray) {
             System.out.println("br.ufpr.ru.controller.ControllerCadastroModalidade.adiciona()" + string);
-            listaVinculos.add(lv.buscaVinculo(Integer.parseInt(string)));
+            listaVinculos.add(logicaVinculo.buscaVinculo(Integer.parseInt(string)));
 
         }
         modalidade.setVinculosBloqueados(listaVinculos);
 
-        logica.cadastraModalidade(modalidade);
+        logicaModalidade.cadastraModalidade(modalidade);
         return "redirect:listaModalidades";
     }
 
     @RequestMapping("listaModalidades")
     public String listarModalidades(Model model) {
-        LogicaModalidade logica = new LogicaModalidade();
-        List<Modalidade> modalidades = logica.lista();
+        
+        List<Modalidade> modalidades = logicaModalidade.lista();
         List<Vinculo> bloqueados = new LinkedList<>();
 
         model.addAttribute("modalidades", modalidades);
@@ -62,8 +76,7 @@ public class ControllerCadastroModalidade {
 
     @RequestMapping("mostraModalidade")
     public String mostraModalidade(int id, Model model) {
-        LogicaModalidade logicaModalidade = new LogicaModalidade();
-        LogicaVinculo logicaVinculo = new LogicaVinculo();
+        
         model.addAttribute("modalidade", logicaModalidade.buscaModalidade(id));
         model.addAttribute("vinculos", logicaVinculo.listaAtivos(logicaModalidade.buscaModalidade(id)));
 
@@ -73,22 +86,24 @@ public class ControllerCadastroModalidade {
 
     @RequestMapping("alteraModalidade")
     public String alteraModalidade(Modalidade modalidade, String vinculosBloqueados) {
-        LogicaModalidade logica = new LogicaModalidade();
-        LogicaVinculo lv = new LogicaVinculo();
+      
         List<Vinculo> listaVinculos = new ArrayList<>();
 
+        if (modalidade.getDescricao() == "") {
+            return "redirect:mostraModalidade?id="+modalidade.getId();
+        }
         if (vinculosBloqueados != null && vinculosBloqueados != "") {
             String[] vbArray = vinculosBloqueados.split(",");
 
             for (String string : vbArray) {
                 System.out.println("br.ufpr.ru.controller.ControllerCadastroModalidade.adiciona()" + string);
-                listaVinculos.add(lv.buscaVinculo(Integer.parseInt(string)));
+                listaVinculos.add(logicaVinculo.buscaVinculo(Integer.parseInt(string)));
 
             }
         }
         modalidade.setVinculosBloqueados(listaVinculos);
 
-        logica.alteraModalidade(modalidade);
+        logicaModalidade.alteraModalidade(modalidade);
         return "redirect:listaModalidades";
     }
 }

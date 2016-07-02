@@ -8,6 +8,7 @@ package br.ufpr.ru.controller;
 import br.ufpr.ru.logica.LogicaVinculo;
 import br.ufpr.ru.modelo.Vinculo;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ControllerCadastroVinculo {
 
+    
+        private LogicaVinculo logicaVinculo ;
+@Autowired
+    public ControllerCadastroVinculo(LogicaVinculo logicaVinculo) {
+        this.logicaVinculo = logicaVinculo;
+    }
+    
+        
+        
+        
     @RequestMapping("novoVinculo")
     public String form(Model model) {        
         return "subMenu/cadastro/fNovoVinculo";
@@ -26,16 +37,16 @@ public class ControllerCadastroVinculo {
 
     @RequestMapping("adicionaVinculo")
     public String adiciona(Vinculo vinculo) {
-        LogicaVinculo logica = new LogicaVinculo();
+       
         
-        logica.cadastraVinculo(vinculo);
+        logicaVinculo.cadastraVinculo(vinculo);
         return "redirect:listaVinculos";
     }
 
     @RequestMapping("listaVinculos")
     public String listarVinculo(Model model) {
-        LogicaVinculo logica = new LogicaVinculo();
-        List<Vinculo> vinculos = logica.lista();
+        
+        List<Vinculo> vinculos = logicaVinculo.lista();
 
         model.addAttribute("vinculos", vinculos);
         return "subMenu/cadastro/vinculo";
@@ -43,8 +54,8 @@ public class ControllerCadastroVinculo {
 
     @RequestMapping("mostraVinculo")
     public String mostraVinculo(int id, Model model) {
-        LogicaVinculo logica = new LogicaVinculo();
-        model.addAttribute("vinculo", logica.buscaVinculo(id));
+        
+        model.addAttribute("vinculo", logicaVinculo.buscaVinculo(id));
         
         return "subMenu/cadastro/fAltVinculo";
 
@@ -52,9 +63,7 @@ public class ControllerCadastroVinculo {
 
     @RequestMapping("alteraVinculo")
     public String alteraVinculo(Vinculo vinculo) {
-        LogicaVinculo logica = new LogicaVinculo();
-        
-        logica.alteraVinculo(vinculo);
+        logicaVinculo.alteraVinculo(vinculo);
         return "redirect:listaVinculos";
     }
 }

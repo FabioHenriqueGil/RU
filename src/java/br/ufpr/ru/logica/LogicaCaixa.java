@@ -8,15 +8,26 @@ package br.ufpr.ru.logica;
 import br.ufpr.ru.dao.CaixaDao;
 import br.ufpr.ru.modelo.Caixa;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author fabio
  */
+
+@Service
 public class LogicaCaixa implements CrudCaixa {
+@Autowired
+    public LogicaCaixa(CaixaDao dao) {
+    this.dao = dao;
+    }
 
-    CaixaDao dao = new CaixaDao();
-
+    
+    
+    
+    
+    CaixaDao dao;
     @Override
     public void cadastraCaixa(Caixa caixa) {
         dao.inserir(caixa);

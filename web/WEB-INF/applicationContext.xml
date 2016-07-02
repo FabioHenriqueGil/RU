@@ -23,4 +23,13 @@
         <property name="basename" value="/WEB-INF/mensagens"/>
     </bean>
     
+    <bean id="mysqlDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost/ruSql"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+    
+    
+    
 </beans>

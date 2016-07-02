@@ -8,14 +8,23 @@ package br.ufpr.ru.logica;
 import br.ufpr.ru.dao.TipoDeReceitaDao;
 import br.ufpr.ru.modelo.TipoDeReceita;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author fabio
  */
+@Service
 public class LogicaTipoDeReceita implements CrudTipoDeReceita {
 
-    TipoDeReceitaDao dao = new TipoDeReceitaDao();
+    TipoDeReceitaDao dao;
+
+    @Autowired
+    public LogicaTipoDeReceita(TipoDeReceitaDao dao) {
+
+        this.dao = dao;
+    }
 
     @Override
     public void cadastraTipoDeReceita(TipoDeReceita tipoDeReceita) {

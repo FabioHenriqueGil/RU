@@ -15,18 +15,34 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author fabio
  */
+
+@Repository
 public class TipoDeReceitaDao implements IDao<TipoDeReceita> {
 
     private Connection connection;
 
-    public TipoDeReceitaDao() {
-        this.connection = new ConnectionFactory().getConnection();
+    @Autowired
+    public TipoDeReceitaDao(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    public TipoDeReceitaDao(Connection connection) {
+        this.connection = connection;
+    }
+    
 
     @Override
     public void inserir(TipoDeReceita obj) {

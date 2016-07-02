@@ -15,23 +15,41 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author fabio
  */
+
+@Repository
 public class VendaDao implements IDao<Venda> {
 
     private Connection connection;
 
-    public VendaDao() {
-        this.connection = new ConnectionFactory().getConnection();
+    @Autowired
+    public VendaDao(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    public VendaDao(Connection connection) {
+        this.connection = connection;
+    }
+    
+    
+
 
     @Override
     public void inserir(Venda obj) {
         String sql = "insert into Venda (Checkin_id, TipoDeReceita_id, Caixa_id) values(?,?,?)";
-        VendaItemDao vi = new VendaItemDao();
+        VendaItemDao vi = new VendaItemDao(connection);
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -62,7 +80,7 @@ public class VendaDao implements IDao<Venda> {
     @Override
     public void alterar(Venda obj) {
         String sql = "update Venda set Checkin_id=?, TipoDeReceita_id=?, Caixa_id=? where id=" + obj.getId();
-        VendaItemDao vi = new VendaItemDao();
+        VendaItemDao vi = new VendaItemDao(connection);
         try {
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, obj.getCheckin().getId());

@@ -17,18 +17,33 @@ import br.ufpr.ru.modelo.Consumidor;
 import br.ufpr.ru.modelo.Credito;
 import br.ufpr.ru.modelo.Modalidade;
 import br.ufpr.ru.modelo.Vinculo;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author fabio
  */
+@Repository
 public class ConsumidorDao implements IDao<Consumidor> {
 
     private Connection connection;
 
-    public ConsumidorDao() {
-        this.connection = new ConnectionFactory().getConnection();
+    @Autowired
+    public ConsumidorDao(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    public ConsumidorDao(Connection connection) {
+        this.connection = connection;
+    }
+    
 
     @Override
     public void inserir(Consumidor obj) {
@@ -37,7 +52,7 @@ public class ConsumidorDao implements IDao<Consumidor> {
 
         try {
 
-            CreditoDao crd = new CreditoDao();
+            CreditoDao crd = new CreditoDao(connection);
             crd.inserir(obj.getCredito());
 
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -73,7 +88,7 @@ public class ConsumidorDao implements IDao<Consumidor> {
             stmt.setBoolean(3, obj.isAtivo());
             stmt.setInt(4, obj.getModalidade().getId());
             stmt.setInt(5, obj.getVinculo().getId());
-            CreditoDao crd = new CreditoDao();
+            CreditoDao crd = new CreditoDao(connection);
             crd.alterar(obj.getCredito());
             stmt.execute();
             stmt.close();
@@ -120,15 +135,15 @@ public class ConsumidorDao implements IDao<Consumidor> {
                 consumidor.setGrr(resultado.getString("grr"));
                 consumidor.setAtivo(resultado.getBoolean("ativo"));
 
-                ModalidadeDao md = new ModalidadeDao();
+                ModalidadeDao md = new ModalidadeDao(connection);
                 Modalidade mod = md.buscar(resultado.getInt("Modalidade_id"));
                 consumidor.setModalidade(mod);
 
-                VinculoDao vd = new VinculoDao();
+                VinculoDao vd = new VinculoDao(connection);
                 Vinculo vin = vd.buscar(resultado.getInt("Vinculo_id"));
                 consumidor.setVinculo(vin);
 
-                CreditoDao crd = new CreditoDao();
+                CreditoDao crd = new CreditoDao(connection);
                 Credito cre = crd.buscar(resultado.getInt("Credito_id"));
                 consumidor.setCredito(cre);
 
@@ -163,15 +178,15 @@ public class ConsumidorDao implements IDao<Consumidor> {
                 consumidor.setGrr(resultado.getString("grr"));
                 consumidor.setAtivo(resultado.getBoolean("ativo"));
 
-                ModalidadeDao md = new ModalidadeDao();
+                ModalidadeDao md = new ModalidadeDao(connection);
                 Modalidade mod = md.buscar(resultado.getInt("Modalidade_id"));
                 consumidor.setModalidade(mod);
 
-                VinculoDao vd = new VinculoDao();
+                VinculoDao vd = new VinculoDao(connection);
                 Vinculo vin = vd.buscar(resultado.getInt("Vinculo_id"));
                 consumidor.setVinculo(vin);
 
-                CreditoDao crd = new CreditoDao();
+                CreditoDao crd = new CreditoDao(connection);
                 Credito cre = crd.buscar(resultado.getInt("Credito_id"));
                 consumidor.deposita(cre.getSaldo());
 
@@ -206,15 +221,15 @@ public class ConsumidorDao implements IDao<Consumidor> {
                 consumidor.setGrr(resultado.getString("grr"));
                 consumidor.setAtivo(resultado.getBoolean("ativo"));
 
-                ModalidadeDao md = new ModalidadeDao();
+                ModalidadeDao md = new ModalidadeDao(connection);
                 Modalidade mod = md.buscar(resultado.getInt("Modalidade_id"));
                 consumidor.setModalidade(mod);
 
-                VinculoDao vd = new VinculoDao();
+                VinculoDao vd = new VinculoDao(connection);
                 Vinculo vin = vd.buscar(resultado.getInt("Vinculo_id"));
                 consumidor.setVinculo(vin);
 
-                CreditoDao crd = new CreditoDao();
+                CreditoDao crd = new CreditoDao(connection);
                 Credito cre = crd.buscar(resultado.getInt("Credito_id"));
                 consumidor.deposita(cre.getSaldo());
 
@@ -250,15 +265,15 @@ public class ConsumidorDao implements IDao<Consumidor> {
                 consumidor.setGrr(resultado.getString("grr"));
                 consumidor.setAtivo(resultado.getBoolean("ativo"));
 
-                ModalidadeDao md = new ModalidadeDao();
+                ModalidadeDao md = new ModalidadeDao(connection);
                 Modalidade mod = md.buscar(resultado.getInt("Modalidade_id"));
                 consumidor.setModalidade(mod);
 
-                VinculoDao vd = new VinculoDao();
+                VinculoDao vd = new VinculoDao(connection);
                 Vinculo vin = vd.buscar(resultado.getInt("Vinculo_id"));
                 consumidor.setVinculo(vin);
 
-                CreditoDao crd = new CreditoDao();
+                CreditoDao crd = new CreditoDao(connection);
                 Credito cre = crd.buscar(resultado.getInt("Credito_id"));
                 consumidor.deposita(cre.getSaldo());
 

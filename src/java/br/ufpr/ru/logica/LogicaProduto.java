@@ -1,4 +1,5 @@
 /*
+
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -8,14 +9,24 @@ package br.ufpr.ru.logica;
 import br.ufpr.ru.dao.ProdutoDao;
 import java.util.List;
 import br.ufpr.ru.modelo.Produto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author fabio
  */
+
+@Service
 public class LogicaProduto implements CrudProduto {
 
-    private ProdutoDao dao = new ProdutoDao();
+    private ProdutoDao dao;
+    @Autowired
+    public LogicaProduto(ProdutoDao dao) {
+        
+        this.dao = dao;
+    }
+    
 
     @Override
     public void cadastraVinculo(Produto produto) {

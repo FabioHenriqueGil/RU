@@ -17,19 +17,35 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author fabio
  */
+
+@Repository
 public class CheckinDao implements IDao<Checkin> {
 
     private Connection connection;
 
-    public CheckinDao() {
-        this.connection = new ConnectionFactory().getConnection();
+    @Autowired
+    public CheckinDao(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
+    public CheckinDao(Connection connection) {
+        this.connection = connection;
+    }
+
+    
     @Override
     public void inserir(Checkin obj) {
         String sql = "insert into Checkin (Consumidor_id, data) values(?,?)";
@@ -85,7 +101,7 @@ public class CheckinDao implements IDao<Checkin> {
     @Override
     public Checkin buscar(int id) {
         Checkin checkin = new Checkin();
-        ConsumidorDao cd = new ConsumidorDao();
+        ConsumidorDao cd = new ConsumidorDao(connection);
         String sql = "select * from Checkin where id =" + id;
 
         try {
@@ -119,7 +135,7 @@ public class CheckinDao implements IDao<Checkin> {
     @Override
     public List<Checkin> listar() {
         List<Checkin> checkins = new ArrayList<Checkin>();
-        ConsumidorDao cd = new ConsumidorDao();
+        ConsumidorDao cd = new ConsumidorDao(connection);
         String sql = "select * from Checkin";
 
         try {

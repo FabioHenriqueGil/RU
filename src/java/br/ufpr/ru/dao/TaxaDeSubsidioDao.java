@@ -14,18 +14,35 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author fabio
  */
+
+
+@Repository
 public class TaxaDeSubsidioDao implements IDao<TaxaDeSubsidio> {
 
     private Connection connection;
 
-    public TaxaDeSubsidioDao() {
-        this.connection = new ConnectionFactory().getConnection();
+    @Autowired
+    public TaxaDeSubsidioDao(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    public TaxaDeSubsidioDao(Connection connection) {
+        this.connection = connection;
+    }
+
 
     @Override
     public void inserir(TaxaDeSubsidio obj) {
@@ -89,8 +106,8 @@ public class TaxaDeSubsidioDao implements IDao<TaxaDeSubsidio> {
 
     public TaxaDeSubsidio buscar(int Modalidade_id, int Produto_id) {
         TaxaDeSubsidio tsb = new TaxaDeSubsidio();
-        ModalidadeDao md = new ModalidadeDao();
-        ProdutoDao pd = new ProdutoDao();
+        ModalidadeDao md = new ModalidadeDao(connection);
+        ProdutoDao pd = new ProdutoDao(connection);
 
         String sql = "select * from TaxaSubsidio where Modalidade_id="
                 + Modalidade_id + " and Produto_id =" + Produto_id;
@@ -122,8 +139,8 @@ public class TaxaDeSubsidioDao implements IDao<TaxaDeSubsidio> {
     public List<TaxaDeSubsidio> listar() {
         List<TaxaDeSubsidio> listaDeTaxas = new ArrayList<TaxaDeSubsidio>();
         String sql = "select * from TaxaSubsidio";
-        ModalidadeDao md = new ModalidadeDao();
-        ProdutoDao pd = new ProdutoDao();
+        ModalidadeDao md = new ModalidadeDao(connection);
+        ProdutoDao pd = new ProdutoDao(connection);
 
         try {
 
@@ -156,8 +173,8 @@ public class TaxaDeSubsidioDao implements IDao<TaxaDeSubsidio> {
                 + "(select id from Modalidade where ativo = 0) and Produto_id not in "
                 + "(select id from Produto where ativo = 0)";
         System.out.println("br.ufpr.ru.dao.TaxaDeSubsidioDao.listarAtivos()  "+sql);
-        ModalidadeDao md = new ModalidadeDao();
-        ProdutoDao pd = new ProdutoDao();
+        ModalidadeDao md = new ModalidadeDao(connection);
+        ProdutoDao pd = new ProdutoDao(connection);
 
         try {
 

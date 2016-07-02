@@ -10,14 +10,26 @@ import br.ufpr.ru.dao.ConsumidorDao;
 import br.ufpr.ru.modelo.Consumidor;
 import br.ufpr.ru.modelo.Modalidade;
 import br.ufpr.ru.modelo.Vinculo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author fabio
  */
+
+@Service
 public class LogicaConsumidor implements CadastraConsumidor, BuscaConsumidor {
 
-    private ConsumidorDao dao = new ConsumidorDao();
+    private ConsumidorDao dao ;
+@Autowired
+    public LogicaConsumidor(ConsumidorDao dao) {
+        
+        this.dao = dao;
+    }
+    
+    
+    
 
     @Override
     public Consumidor buscarConsumidor(int id) {

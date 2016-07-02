@@ -15,18 +15,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author fabio
  */
+
+@Repository
 public class VendaItemDao implements IDao<VendaItem> {
 
     private Connection connection;
 
-    public VendaItemDao() {
-        this.connection = new ConnectionFactory().getConnection();
+    @Autowired
+    public VendaItemDao(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    public VendaItemDao(Connection connection) {
+        this.connection = connection;
+    }
+
 
     @Override
     public void inserir(VendaItem obj) {
@@ -82,8 +98,8 @@ public class VendaItemDao implements IDao<VendaItem> {
 
     @Override
     public void deletar(VendaItem obj) {
-        String sql = "delete from VendaItem where Venda_id=" + 
-                obj.getVenda().getId() + " and where Produto_id=" + obj.getProduto().getId();
+        String sql = "delete from VendaItem where Venda_id="
+                + obj.getVenda().getId() + " and where Produto_id=" + obj.getProduto().getId();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.execute();
@@ -98,7 +114,7 @@ public class VendaItemDao implements IDao<VendaItem> {
     }
 
     public void deletar(Venda venda) {
-         String sql = "delete from VendaItem where Venda_id=" + venda.getId();
+        String sql = "delete from VendaItem where Venda_id=" + venda.getId();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.execute();

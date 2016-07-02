@@ -15,18 +15,36 @@ import java.util.ArrayList;
 import java.util.List;
 import br.ufpr.ru.modelo.Modalidade;
 import br.ufpr.ru.modelo.Vinculo;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author fabio
  */
+
+
+@Repository
 public class VinculoDao implements IDao<Vinculo> {
 
     private Connection connection;
 
-    public VinculoDao() {
-        this.connection = new ConnectionFactory().getConnection();
+    @Autowired
+    public VinculoDao(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    public VinculoDao(Connection connection) {
+        this.connection = connection;
+    }
+    
+
 
     @Override
     public void inserir(Vinculo obj) {

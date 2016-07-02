@@ -15,18 +15,36 @@ import java.util.ArrayList;
 import java.util.List;
 import br.ufpr.ru.modelo.Modalidade;
 import br.ufpr.ru.modelo.Vinculo;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author fabio
  */
+
+@Repository
 public class ModalidadeDao implements IDao<Modalidade> {
 
     private Connection connection;
 
-    public ModalidadeDao() {
-        this.connection = new ConnectionFactory().getConnection();
+    @Autowired
+    public ModalidadeDao(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    public ModalidadeDao(Connection connection) {
+        this.connection = connection;
+    }
+
 
     @Override
     public void inserir(Modalidade obj) {
@@ -59,6 +77,7 @@ public class ModalidadeDao implements IDao<Modalidade> {
             // TODO Auto-generated catch block
             System.out.println("erro no adiciona modalidade");
             throw new RuntimeException(e);
+        
         }
 
     }
@@ -94,6 +113,7 @@ public class ModalidadeDao implements IDao<Modalidade> {
             throw new RuntimeException(e);
         }
 
+
     }
 
     @Override
@@ -112,7 +132,6 @@ public class ModalidadeDao implements IDao<Modalidade> {
             System.out.println("erro no deletar modalidade");
             throw new RuntimeException(e);
         }
-
     }
 
     private List<Vinculo> VinculosBloqueados(int id) {
@@ -125,18 +144,22 @@ public class ModalidadeDao implements IDao<Modalidade> {
             // alimenta a lista
             while (resultadoVB.next()) {
                 Vinculo vin = new Vinculo();
-                VinculoDao vbDao = new VinculoDao();
+                VinculoDao vbDao = new VinculoDao(connection);
                 vin.setId(resultadoVB.getInt("Vinculo_id"));
                 vin.setAtivo(vbDao.buscar(vin.getId()).isAtivo());
                 vin.setDescricao(vbDao.buscar(vin.getId()).getDescricao());
                 vinculosBloqueados.add(vin);
             }
+            stmtVB.close();
+             return vinculosBloqueados;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        return vinculosBloqueados;
+
+             
+        
 
     }
 

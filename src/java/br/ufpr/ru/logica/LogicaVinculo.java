@@ -9,14 +9,23 @@ import java.util.List;
 import br.ufpr.ru.dao.VinculoDao;
 import br.ufpr.ru.modelo.Modalidade;
 import br.ufpr.ru.modelo.Vinculo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author fabio
  */
+@Service
 public class LogicaVinculo implements CrudVinculo {
 
-    private VinculoDao dao = new VinculoDao();
+    private VinculoDao dao;
+
+    @Autowired
+    public LogicaVinculo(VinculoDao dao) {
+
+        this.dao = dao;
+    }
 
     @Override
     public void cadastraVinculo(Vinculo vinculo) {
@@ -55,13 +64,14 @@ public class LogicaVinculo implements CrudVinculo {
 
     public List<Vinculo> lista() {
         return dao.listar();
-       
+
     }
-    
+
     @Override
     public List<Vinculo> listaAtivos() {
         return dao.listarAtivos();
     }
+
     @Override
     public List<Vinculo> listaAtivos(Modalidade modalidade) {
         return dao.listarAtivos(modalidade);

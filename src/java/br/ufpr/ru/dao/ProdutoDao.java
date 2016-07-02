@@ -14,18 +14,35 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author fabio
  */
+
+@Repository
 public class ProdutoDao implements IDao<Produto>{
 
     private Connection connection;
 
-    public ProdutoDao() {
-        this.connection = new ConnectionFactory().getConnection();
+    @Autowired
+    public ProdutoDao(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    public ProdutoDao(Connection connection) {
+        this.connection = connection;
+    }
+    
+
     @Override
     public void inserir(Produto obj) {
          String sql = "insert into Produto (descricao, precoPadrao) values(?,?)";

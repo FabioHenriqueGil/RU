@@ -8,6 +8,7 @@ package br.ufpr.ru.controller;
 import br.ufpr.ru.logica.LogicaProduto;
 import br.ufpr.ru.modelo.Produto;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ControllerCadastroProduto {
 
+      
+    
+        private LogicaProduto logicaProduto ;
+@Autowired
+    public ControllerCadastroProduto(LogicaProduto logicaProduto) {
+        this.logicaProduto = logicaProduto;
+    }
+       
+        
+    
+    
+    
     @RequestMapping("novoProduto")
     public String form(Model model) {        
         return "subMenu/cadastro/fNovoProduto";
@@ -26,16 +39,16 @@ public class ControllerCadastroProduto {
 
     @RequestMapping("adicionaProduto")
     public String adiciona(Produto produto) {
-        LogicaProduto logica = new LogicaProduto();
+      
         
-        logica.cadastraVinculo(produto);
+        logicaProduto.cadastraVinculo(produto);
         return "redirect:listaProdutos";
     }
 
     @RequestMapping("listaProdutos")
     public String listarProduto(Model model) {
-        LogicaProduto logica = new LogicaProduto();
-        List<Produto> produtos = logica.lista();
+       
+        List<Produto> produtos = logicaProduto.lista();
 
         model.addAttribute("produtos", produtos);
         return "subMenu/cadastro/produto";
@@ -43,8 +56,8 @@ public class ControllerCadastroProduto {
 
     @RequestMapping("mostraProduto")
     public String mostraProduto(int id, Model model) {
-        LogicaProduto logica = new LogicaProduto();
-        model.addAttribute("produto", logica.buscaProduto(id));
+       
+        model.addAttribute("produto", logicaProduto.buscaProduto(id));
         
         return "subMenu/cadastro/fAltProduto";
 
@@ -52,9 +65,8 @@ public class ControllerCadastroProduto {
 
     @RequestMapping("alteraProduto")
     public String alteraProduto(Produto produto) {
-        LogicaProduto logica = new LogicaProduto();
-        
-        logica.alteraProduto(produto);
+      
+        logicaProduto.alteraProduto(produto);
         return "redirect:listaProdutos";
     }
 }

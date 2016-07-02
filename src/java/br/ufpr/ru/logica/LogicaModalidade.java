@@ -8,14 +8,25 @@ package br.ufpr.ru.logica;
 import java.util.List;
 import br.ufpr.ru.dao.ModalidadeDao;
 import br.ufpr.ru.modelo.Modalidade;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author fabio
  */
+
+@Service
 public class LogicaModalidade implements CrudModalidade {
 
-    private ModalidadeDao dao = new ModalidadeDao();
+    private ModalidadeDao dao ;
+    
+    @Autowired
+    public LogicaModalidade(ModalidadeDao dao) {
+        
+        this.dao = dao;
+    }
+    
 
     @Override
     public void cadastraModalidade(Modalidade modalidade) {

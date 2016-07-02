@@ -5,9 +5,12 @@
  */
 package br.ufpr.ru.controller;
 
+import br.ufpr.ru.logica.LogicaModalidade;
 import br.ufpr.ru.logica.LogicaTipoDeReceita;
+import br.ufpr.ru.logica.LogicaVinculo;
 import br.ufpr.ru.modelo.TipoDeReceita;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ControllerCadastroTipoDeReceita {
     
+        
+        private LogicaTipoDeReceita logicaTipoDeReceita;
+@Autowired
+    public ControllerCadastroTipoDeReceita(LogicaTipoDeReceita logicaTipoDeReceita) {
+        this.logicaTipoDeReceita = logicaTipoDeReceita;
+    }
+        
+        
     
      @RequestMapping("novoTipoDeReceita")
     public String form(Model model) {        
@@ -27,16 +38,14 @@ public class ControllerCadastroTipoDeReceita {
 
     @RequestMapping("adicionaTipoDeReceita")
     public String adiciona(TipoDeReceita tipo) {
-        LogicaTipoDeReceita logica = new LogicaTipoDeReceita();
         
-        logica.cadastraTipoDeReceita(tipo);
+        logicaTipoDeReceita.cadastraTipoDeReceita(tipo);
         return "redirect:listaTiposDeReceitas";
     }
 
     @RequestMapping("listaTiposDeReceitas")
     public String listarTiposDeReceitas(Model model) {
-        LogicaTipoDeReceita logica = new LogicaTipoDeReceita();
-        List<TipoDeReceita> tipos = logica.lista();
+        List<TipoDeReceita> tipos = logicaTipoDeReceita.lista();
 
         model.addAttribute("tipos", tipos);
         return "subMenu/cadastro/tipoDeReceita";
@@ -45,8 +54,7 @@ public class ControllerCadastroTipoDeReceita {
     
     @RequestMapping("mostraTipoDeReceita")
     public String mostraTipoDeReceita(int id, Model model) {
-        LogicaTipoDeReceita logica = new LogicaTipoDeReceita();
-        model.addAttribute("tipo", logica.buscaTipoDeReceita(id));
+        model.addAttribute("tipo", logicaTipoDeReceita.buscaTipoDeReceita(id));
         
         return "subMenu/cadastro/fAltTipoDeReceita";
 
@@ -54,9 +62,8 @@ public class ControllerCadastroTipoDeReceita {
 
     @RequestMapping("alteraTipoDeReceita")
     public String alteraVinculo(TipoDeReceita tipo) {
-         LogicaTipoDeReceita logica = new LogicaTipoDeReceita();
         
-        logica.alteraTipoDeReceita(tipo);
+        logicaTipoDeReceita.alteraTipoDeReceita(tipo);
         return "redirect:listaTiposDeReceitas";
     }
 }
