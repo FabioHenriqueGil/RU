@@ -81,6 +81,8 @@
                                                 $.post("adicionaProdutoVenda?idProduto=" + id + "&precoVenda=" + precoVenda + "&idVenda=" + idVenda, function (dadosDeResposta) {
 
                                                     $("#produtosSelecionados").html(dadosDeResposta);
+                                                    
+                                                    
                                                 });
 
                                             }
@@ -88,6 +90,8 @@
                                                 $.post("removerProduto?idProduto=" + id + "&idVenda=" + idVenda, function (dadosDeResposta) {
 
                                                     $("#produtosSelecionados").html(dadosDeResposta);
+                                                    
+                                                    
                                                 });
 
                                             }
@@ -197,9 +201,9 @@
                         <div class="span11">
                             <div align="left" class="hero-unit">
 
-                                <label><b>NOME DO CLIENTE: ${consumidor.nome}<br></b></label>
-                                <label id="qtdItens"><b>QTD DE ITENS: ${qtdItens}<br></b></label>
-                                <label id="total"><b>TOTAL A PAGAR: R$ ${total} <br></b></label>
+                                <label><h2><b>NOME DO CLIENTE: ${consumidor.nome}<br></b></h2></label>
+                                
+                                
 
 
                             </div>

@@ -114,6 +114,7 @@ public class ControllerVenda {
         logicaVenda.alteraVenda(venda);
 
         model.addAttribute("venda", venda);
+        model.addAttribute("total", venda.getValorTotal());
         model.addAttribute("produtos", venda.getListaDeProdutos());
         return "subMenu/vendas/produtosSelecionados";
 
@@ -121,12 +122,12 @@ public class ControllerVenda {
     
     @RequestMapping("/removerProduto")
     public String removeProduto(Integer idProduto, Integer idVenda, Model model) throws SQLException {
-        Produto produto = logicaProdutos.buscaProduto(idProduto);
         Venda venda = logicaVenda.buscaVenda(idVenda);
         venda.removeProduto(idProduto);
         logicaVenda.alteraVenda(venda);
 
         model.addAttribute("venda", venda);
+        model.addAttribute("total", venda.getValorTotal());
         model.addAttribute("produtos", venda.getListaDeProdutos());
         return "subMenu/vendas/produtosSelecionados";
 

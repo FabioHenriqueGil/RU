@@ -88,7 +88,7 @@ public class Venda {
 
     public double getValorTotal() {
         double valor = 0;
-        for (Produto produto : listaDeProdutos) {
+        for (Produto produto : this.listaDeProdutos) {
             valor = valor + (produto.getPrecoVenda() * produto.getQtd());
         }
         return valor;

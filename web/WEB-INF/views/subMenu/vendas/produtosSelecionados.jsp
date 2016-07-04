@@ -29,4 +29,8 @@
             </tr>
         </c:forEach>
     </table>
+    <br>
+    <div id="total">
+        <h2><b>TOTAL A PAGAR: R$ ${total}</b></h2>
+    </div>
 </div>
