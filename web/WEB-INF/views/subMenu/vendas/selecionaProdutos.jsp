@@ -81,8 +81,8 @@
                                                 $.post("adicionaProdutoVenda?idProduto=" + id + "&precoVenda=" + precoVenda + "&idVenda=" + idVenda, function (dadosDeResposta) {
 
                                                     $("#produtosSelecionados").html(dadosDeResposta);
-                                                    
-                                                    
+
+
                                                 });
 
                                             }
@@ -90,8 +90,8 @@
                                                 $.post("removerProduto?idProduto=" + id + "&idVenda=" + idVenda, function (dadosDeResposta) {
 
                                                     $("#produtosSelecionados").html(dadosDeResposta);
-                                                    
-                                                    
+
+
                                                 });
 
                                             }
@@ -139,7 +139,8 @@
                                         </div>
                                         <script>
                                             function deposita() {
-                                                alert($('#deposita').val());
+                                                $.get("deposita?valor=" + $("#deposita").val() + "&consumidor_id=${consumidor.id}");
+                                              
                                             }
 
                                         </script>
@@ -153,7 +154,7 @@
                                             <div class="modal-content">
                                                 <label for="valor">Informe o Valor:</label> 
                                                 <input type="text" onkeypress='return SomenteNumero(event)'
-                                                       class="form-control" name="saca" id="deposita">
+                                                       class="form-control" name="saca" id="saca">
                                                 <br>
                                                 <button id="depositar" onclick="saca()" class="btn btn-primary">Sacar</button>
                                             </div>
@@ -161,7 +162,13 @@
                                         </div>
                                         <script>
                                             function saca() {
-                                                alert($('#saca').val());
+                                                $.post("saca?valor=" + $('#saca').val() + "&consumidor_id=${consumidor.id}", function (dadosDeResposta) {
+                                                    
+//                                                    if (dadosDeResposta != true) {
+//                                                        alert("não foi possivel sacar, saldo insuficiente");
+//                                                    }
+
+                                                });
                                             }
 
                                         </script>                                            
@@ -176,8 +183,18 @@
                                         <br><br>
                                         <button id="fecharVenda" onclick="fecharVenda()" class="btn btn-success">Fechar Venda</button>
                                         <script>
-                                            function fecharVenda() {
-                                                alert("venda fechada");
+                                            function fecharVenda() { 
+                                                $.post("fecharVenda?venda_id=${venda.id}&tipoDeReceita_id="+$("#receita").val(), function (dadosDeResposta) {
+                                                    
+                                                    window.location.href = "vendas";
+//                                                    if (dadosDeResposta == true) {
+//                                                        window.location.href = "vendas";
+//                                                    }else{
+//                                                        alert("saldo insuficiente");
+//                                                    }
+
+                                                });
+                                                
                                             }
                                         </script>
 
@@ -202,8 +219,8 @@
                             <div align="left" class="hero-unit">
 
                                 <label><h2><b>NOME DO CLIENTE: ${consumidor.nome}<br></b></h2></label>
-                                
-                                
+
+
 
 
                             </div>

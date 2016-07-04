@@ -48,7 +48,7 @@ public class VendaDao implements IDao<Venda> {
 
     @Override
     public void inserir(Venda obj) {
-        String sql = "insert into Venda (Checkin_id, TipoDeReceita_id, Caixa_id) values(?,?,?)";
+        String sql = "insert into Venda (Checkin_id, TipoDeReceita_id, Caixa_id, ativo) values(?,?,?,?)";
         VendaItemDao vi = new VendaItemDao(connection);
         CheckinDao chdao = new CheckinDao(connection);
         chdao.inserir(obj.getCheckin());
@@ -57,6 +57,8 @@ public class VendaDao implements IDao<Venda> {
             stmt.setInt(1, obj.getCheckin().getId());
             stmt.setInt(2, obj.getTipoDeReceita().getId());
             stmt.setInt(3, obj.getCaixa().getId());
+            stmt.setBoolean(4, obj.isAtivo());
+            
             stmt.execute();
 
             ResultSet rs = stmt.getGeneratedKeys();
@@ -80,13 +82,14 @@ public class VendaDao implements IDao<Venda> {
 
     @Override
     public void alterar(Venda obj) {
-        String sql = "update Venda set Checkin_id=?, TipoDeReceita_id=?, Caixa_id=? where id=" + obj.getId();
+        String sql = "update Venda set Checkin_id=?, TipoDeReceita_id=?, Caixa_id=?, ativo=? where id=" + obj.getId();
         VendaItemDao vi = new VendaItemDao(connection);
         try {
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, obj.getCheckin().getId());
             stmt.setInt(2, obj.getTipoDeReceita().getId());
             stmt.setInt(3, obj.getCaixa().getId());
+            stmt.setBoolean(4, obj.isAtivo());
             stmt.execute();
             vi.alterar(obj.getListaDeProdutos(), obj);
 
@@ -123,7 +126,8 @@ public class VendaDao implements IDao<Venda> {
                 ven.setId(resultado.getInt("id"));
                 ven.setCheckin(chd.buscar(resultado.getInt("Checkin_id")));
                 ven.setTipoDeReceita(trd.buscar(resultado.getInt("TipoDeReceita_id")));
-                ven.setCaixa(cd.buscar(resultado.getInt("Caixa_id")));
+                ven.setCaixa(cd.buscar(resultado.getInt("Caixa_id"))); 
+                ven.setAtivo(resultado.getBoolean("ativo"));
                 ven.setListaDeProdutos(vid.listar(ven));
                 
             }

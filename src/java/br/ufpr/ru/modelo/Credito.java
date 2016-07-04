@@ -10,6 +10,7 @@ package br.ufpr.ru.modelo;
  * @author fabio
  */
 public class Credito {
+
     private int id;
     private double saldo;
 
@@ -37,8 +38,12 @@ public class Credito {
         setSaldo(getSaldo() + valor);
     }
 
-    public void saca(double valor) {
-        setSaldo(getSaldo() - valor);
+    public boolean saca(double valor) {
+        if (getSaldo() >= valor) {
+            setSaldo(getSaldo() - valor);
+            return true;
+        }
+        return false;
     }
 
 }

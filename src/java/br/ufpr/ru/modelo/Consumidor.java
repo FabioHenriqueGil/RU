@@ -85,8 +85,8 @@ public class Consumidor {
         return credito;
     }
 
-    public void saca(double valor) {
-        this.credito.saca(valor);
+    public boolean saca(double valor) {
+        return this.credito.saca(valor);
     }
 
     public void deposita(double valor) {

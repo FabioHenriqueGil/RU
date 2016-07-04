@@ -19,6 +19,7 @@ public class Venda {
     private TipoDeReceita tipoDeReceita;
     private Caixa caixa;
     private List<Produto> listaDeProdutos;
+    private boolean ativo = false;
 
     public Venda() {
     }
@@ -46,6 +47,15 @@ public class Venda {
 
     }
 
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    
     public int getId() {
         return id;
     }

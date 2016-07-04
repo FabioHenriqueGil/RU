@@ -79,22 +79,22 @@ public class ControllerVenda {
         TipoDeReceita tipoDeReceita = logicaTipoDeReceita.buscaTipoDeReceita(1);
         Caixa caixa = logicaCaixa.buscaUltimoCaixa();
         Venda venda = new Venda(checkin, tipoDeReceita, caixa);
-        logicaVenda.cadastraVenda(venda);        
-        
-        return "redirect:selecionaProdutos?consumidor_id="+consumidor_id+"&venda_id="+venda.getId();
+        logicaVenda.cadastraVenda(venda);
+
+        return "redirect:selecionaProdutos?consumidor_id=" + consumidor_id + "&venda_id=" + venda.getId();
     }
-    
+
     @RequestMapping("selecionaProdutos")
     public String selecionaProdutos(Model model, Integer consumidor_id, Integer venda_id) {
-        
+
         Consumidor consumidor = logicaConsumidor.buscarConsumidor(consumidor_id);
         List<Produto> produtos = logicaProdutos.listaAtivos();
         for (Produto produto : produtos) {
             produto.setPrecoVenda((produto.getPrecoPadrao()
                     - logicaTaxaDeSubsidio.buscaTaxa(consumidor.getModalidade().getId(), produto.getId()).getDesconto()));
         }
-        Venda venda = logicaVenda.buscaVenda(venda_id);        
-        model.addAttribute("consumidor", consumidor);        
+        Venda venda = logicaVenda.buscaVenda(venda_id);
+        model.addAttribute("consumidor", consumidor);
         model.addAttribute("qtdItens", 0);
         model.addAttribute("total", 0.00);
         model.addAttribute("venda", venda);
@@ -104,7 +104,6 @@ public class ControllerVenda {
         return "subMenu/vendas/selecionaProdutos";
     }
 
-   
     @RequestMapping("/adicionaProdutoVenda")
     public String adicionaProdutos(Integer idProduto, Double precoVenda, Integer idVenda, Model model) throws SQLException {
         Produto produto = logicaProdutos.buscaProduto(idProduto);
@@ -119,7 +118,7 @@ public class ControllerVenda {
         return "subMenu/vendas/produtosSelecionados";
 
     }
-    
+
     @RequestMapping("/removerProduto")
     public String removeProduto(Integer idProduto, Integer idVenda, Model model) throws SQLException {
         Venda venda = logicaVenda.buscaVenda(idVenda);
@@ -130,6 +129,48 @@ public class ControllerVenda {
         model.addAttribute("total", venda.getValorTotal());
         model.addAttribute("produtos", venda.getListaDeProdutos());
         return "subMenu/vendas/produtosSelecionados";
+
+    }
+
+    @RequestMapping("deposita")
+    public void deposita(Double valor, Integer consumidor_id) {
+        Consumidor c = logicaConsumidor.buscarConsumidor(consumidor_id);
+        c.deposita(valor);
+        logicaConsumidor.alterarConsumidor(c);
+        logicaCaixa.deposita(logicaCaixa.buscaUltimoCaixa(), valor);
+    }
+
+    @RequestMapping("saca")
+    public boolean saca(Double valor, Integer consumidor_id) {
+        Consumidor consumidor = logicaConsumidor.buscarConsumidor(consumidor_id);
+        if (logicaCaixa.saca(logicaCaixa.buscaUltimoCaixa(), valor)) {
+            if (consumidor.saca(valor)) {
+                logicaConsumidor.alterarConsumidor(consumidor);
+                return true;
+            }
+            logicaCaixa.deposita(logicaCaixa.buscaUltimoCaixa(), valor);
+        }
+        return false;
+
+    }
+
+    @RequestMapping("fecharVenda")
+    public boolean fechaVenda(Integer venda_id, Integer tipoDeReceita_id) {
+        Venda venda = logicaVenda.buscaVenda(venda_id);
+        Consumidor consumidor = venda.getCheckin().getConsumidor();
+        if (!logicaTipoDeReceita.buscaTipoDeReceita(tipoDeReceita_id).isCredito()) {
+            logicaCaixa.deposita(logicaCaixa.buscaUltimoCaixa(), venda.getValorTotal());
+            venda.setAtivo(true);
+            logicaVenda.alteraVenda(venda);
+            return true;
+        }
+        if (consumidor.saca(venda.getValorTotal())) {
+            venda.setAtivo(true);
+            logicaVenda.alteraVenda(venda);
+            logicaConsumidor.alterarConsumidor(consumidor);
+            return true;
+        }
+        return false;
 
     }
 }
