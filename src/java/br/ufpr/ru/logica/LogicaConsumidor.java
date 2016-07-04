@@ -29,8 +29,7 @@ public class LogicaConsumidor implements CadastraConsumidor, BuscaConsumidor {
     }
     
     
-    
-
+ 
     @Override
     public Consumidor buscarConsumidor(int id) {
         

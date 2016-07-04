@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class ControllerCadastroVinculo {
-
-    
         private LogicaVinculo logicaVinculo ;
 @Autowired
     public ControllerCadastroVinculo(LogicaVinculo logicaVinculo) {

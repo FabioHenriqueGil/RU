@@ -31,7 +31,7 @@ public class ControllerCadastroConsumidor {
         private LogicaConsumidor logicaConsumidor ;
         private LogicaModalidade logicaModalidade ;
         private LogicaVinculo logicaVinculo ;
-@Autowired
+@Autowired 
     public ControllerCadastroConsumidor(LogicaConsumidor logicaConsumidor, LogicaModalidade logicaModalidade, LogicaVinculo logicaVinculo) {
         this.logicaConsumidor = logicaConsumidor;
         this.logicaModalidade = logicaModalidade;
