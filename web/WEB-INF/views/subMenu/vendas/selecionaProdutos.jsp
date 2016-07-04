@@ -32,7 +32,29 @@
                 padding: 9px 0;
             }
         </style>
-
+        <script language='JavaScript'>
+            function atualiza(id, precoVenda, idVenda) {
+                $.post("adicionaProdutoVenda?idProduto=" + id + "&precoVenda=" + precoVenda + "&idVenda=" + idVenda, function (dadosDeResposta) {
+                    $("#produtosSelecionados").html(dadosDeResposta);
+                });
+            }
+            function removerProduto(id, idVenda) {
+                $.post("removerProduto?idProduto=" + id + "&idVenda=" + idVenda, function (dadosDeResposta) {
+                    $("#produtosSelecionados").html(dadosDeResposta);
+                });
+            }
+            function SomenteNumero(e) {
+                var tecla = (window.event) ? event.keyCode : e.which;
+                if ((tecla > 47 && tecla < 58))
+                    return true;
+                else {
+                    if (tecla == 8 || tecla == 0 || tecla == 46)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+        </script>
     </head>
     <body>
         <div align="center" class="container">
@@ -75,149 +97,25 @@
                                             </div>
                                             <label class="modal-close" for="modal_produto"></label>
                                         </div>
-                                        <script>
-
-                                            function atualiza(id, precoVenda, idVenda) {
-                                                $.post("adicionaProdutoVenda?idProduto=" + id + "&precoVenda=" + precoVenda + "&idVenda=" + idVenda, function (dadosDeResposta) {
-
-                                                    $("#produtosSelecionados").html(dadosDeResposta);
-
-
-                                                });
-
-                                            }
-                                            function removerProduto(id, idVenda) {
-                                                $.post("removerProduto?idProduto=" + id + "&idVenda=" + idVenda, function (dadosDeResposta) {
-
-                                                    $("#produtosSelecionados").html(dadosDeResposta);
-
-
-                                                });
-
-                                            }
-
-                                        </script>
-
                                         <br><br>
-                                        <div class="form-group" align="center">
-                                            <select name="receita" id="receita" class="list-group center-block" >
-                                                <c:forEach items="${tiposDeReceita}" var="receita">
-                                                    <option value="${receita.id}" class="list-group-item">
-                                                        ${receita.descricao}
-                                                    </option>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
-                                        <br><br>
-                                        <script language='JavaScript'>
-                                            function SomenteNumero(e) {
-                                                var tecla = (window.event) ? event.keyCode : e.which;
-                                                if ((tecla > 47 && tecla < 58))
-                                                    return true;
-                                                else {
-                                                    if (tecla == 8 || tecla == 0 || tecla == 46)
-                                                        return true;
-                                                    else
-                                                        return false;
-                                                }
-                                            }
-                                        </script>
-                                        <div class="highlights">
-                                            <input type="radio" id="radio-img1" name="highlights" checked="checked" />
-                                            <label class="btn btn-primary" for="modal_deposita">Depositar</label>
-                                        </div>
-                                        <input type="checkbox" id="modal_deposita" />
-                                        <div class="modal">
-                                            <div class="modal-content">
-                                                <label for="valor">Informe o Valor:</label> 
-                                                <input type="text" onkeypress='return SomenteNumero(event)'
-                                                       class="form-control" name="deposita" id="deposita">
-                                                <br>
-                                                <button id="depositar" onclick="deposita()" class="btn btn-primary">Depositar</button>
-                                            </div>
-                                            <label class="modal-close" for="modal_deposita"></label>
-                                        </div>
-                                        <script>
-                                            function deposita() {
-                                                $.get("deposita?valor=" + $("#deposita").val() + "&consumidor_id=${consumidor.id}");
-                                              
-                                            }
-
-                                        </script>
+                                        <c:import url="btnTipoDeReceita.jsp"/>
+                                        <br><br>                                        
+                                        <c:import url="btnDepositar.jsp"/>
                                         <br>
-                                        <div class="highlights">
-                                            <input type="radio" id="radio-img1" name="highlights" checked="checked" />
-                                            <label class="btn btn-primary" for="modal_saca">Sacar</label>
-                                        </div>
-                                        <input type="checkbox" id="modal_saca" />
-                                        <div class="modal">
-                                            <div class="modal-content">
-                                                <label for="valor">Informe o Valor:</label> 
-                                                <input type="text" onkeypress='return SomenteNumero(event)'
-                                                       class="form-control" name="saca" id="saca">
-                                                <br>
-                                                <button id="depositar" onclick="saca()" class="btn btn-primary">Sacar</button>
-                                            </div>
-                                            <label class="modal-close" for="modal_saca"></label>
-                                        </div>
-                                        <script>
-                                            function saca() {
-                                                $.post("saca?valor=" + $('#saca').val() + "&consumidor_id=${consumidor.id}", function (dadosDeResposta) {
-                                                    
-//                                                    if (dadosDeResposta != true) {
-//                                                        alert("não foi possivel sacar, saldo insuficiente");
-//                                                    }
-
-                                                });
-                                            }
-
-                                        </script> 
+                                        <c:import url="btnSacar.jsp"/>
                                         <br>
-                                        <button id="saldo" onclick="saldo()" class="btn btn-primary">Saldo</button>
-                                        <script>
-                                            function saldo() {
-                                                alert("R$ "+${consumidor.credito.saldo});
-                                            }
-                                        </script>
-
+                                        <c:import url="btnSaldo.jsp"/>
                                         <br><br>
+                                        <c:import url="btnCancela.jsp"/>
                                         <br><br>
-                                        <button id="cancela" onclick="cancela()" class="btn btn-danger">Cancela Venda</button>
-                                        <script>
-                                            function cancela() {
-                                                window.location.href = "vendas";
-                                            }
-                                        </script>
-
-                                        <br><br>
-                                        <button id="fecharVenda" onclick="fecharVenda()" class="btn btn-success">Fechar Venda</button>
-                                        <script>
-                                            function fecharVenda() { 
-                                                $.post("fecharVenda?venda_id=${venda.id}&tipoDeReceita_id="+$("#receita").val(), function (dadosDeResposta) {
-                                                    
-                                                    window.location.href = "vendas";
-//                                                    if (dadosDeResposta == true) {
-//                                                        window.location.href = "vendas";
-//                                                    }else{
-//                                                        alert("saldo insuficiente");
-//                                                    }
-
-                                                });
-                                                
-                                            }
-                                        </script>
-
-
+                                        <c:import url="btnFecharVenda.jsp"/>                                    
                                     </section>
-
                                 </div><!--/.well -->
                             </div><!--/span-->
                             <div class="span8">
                                 <div class="hero-unit">
-
                                     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                                     <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
                                     <div id="produtosSelecionados"  class="panel panel-primary">                                        
                                         <c:import url="produtosSelecionados.jsp"/>                                        
                                     </div>
@@ -226,12 +124,7 @@
                         </div><!--/span-->
                         <div class="span11">
                             <div align="left" class="hero-unit">
-
-                                <label><h2><b>NOME DO CLIENTE: ${consumidor.nome}<br></b></h2></label>
-
-
-
-
+                                <h2><b>NOME DO CLIENTE: ${consumidor.nome}</b></h2>
                             </div>
                         </div><!--/span-->
                     </div>
