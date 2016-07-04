@@ -21,12 +21,13 @@
                 <div class="panel panel-primary">
                     <div class="form-group">
                         <br>
-                        <input type="text" onkeypress='filtrar()' placeholder="FILTRO DE CONSUMIDOR" 
-                               class="form-control" name="filtro" id="filtro">
+                        <input type="text" onkeyup="filtrar()" placeholder="FILTRO DE CONSUMIDOR" 
+                               class="form-control" name="like" id="like">
                     </div>
 
                 </div>
-                <div class="panel panel-primary">
+
+                <div id="filtroClientes"  class="panel panel-primary">
                     <div class="table-responsive">
                         <table class="table">
                             <tr>
@@ -62,6 +63,15 @@
             </div>
         </div>
         <script type="text/javascript">
+            function filtrar() {
+
+                var f = $('#like').val();
+                $.post("filtrarConsumidor?filtroC="+f, function (dadosDeResposta) {
+                    
+                    $("#filtroClientes").html(dadosDeResposta);
+                });
+
+            }
             function iniciaVenda(id) {
                 window.location.href = 'selecionaProdutos?consumidor_id=' + id;
             }

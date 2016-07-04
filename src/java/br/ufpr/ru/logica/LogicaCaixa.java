@@ -24,9 +24,6 @@ public class LogicaCaixa implements CrudCaixa {
     }
 
     
-    
-    
-    
     CaixaDao dao;
     @Override
     public void cadastraCaixa(Caixa caixa) {
@@ -65,6 +62,10 @@ public class LogicaCaixa implements CrudCaixa {
 
     public List<Caixa> lista() {
         return dao.listar();
+    }
+
+    public Caixa buscaUltimoCaixa() {
+        return dao.buscarUltimo();
     }
 
 }

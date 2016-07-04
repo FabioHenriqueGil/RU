@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import org.springframework.stereotype.Repository;
  *
  * @author fabio
  */
-
 @Repository
 public class VendaItemDao implements IDao<VendaItem> {
 
@@ -42,7 +42,6 @@ public class VendaItemDao implements IDao<VendaItem> {
     public VendaItemDao(Connection connection) {
         this.connection = connection;
     }
-
 
     @Override
     public void inserir(VendaItem obj) {
@@ -130,11 +129,39 @@ public class VendaItemDao implements IDao<VendaItem> {
     @Override
     public VendaItem buscar(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public List<VendaItem> listar() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<Produto> listar(Venda venda) {
+        List<Produto> produtos = new ArrayList<Produto>();
+        String sql = "select * from VendaItem where Venda_id=" + venda.getId();
+        ProdutoDao pd = new ProdutoDao(connection);
+        try {
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            // executa
+            ResultSet resultado = stmt.executeQuery();
+            // alimenta a lista
+            while (resultado.next()) {                
+                Produto produto = pd.buscar(resultado.getInt("Produto_id"));
+                produto.setPrecoVenda(resultado.getDouble("precoUnit"));
+                produto.setQtd(resultado.getInt("qtd"));
+                produtos.add(produto);
+            }
+            // fecha conexão
+            resultado.close();
+            stmt.close();
+            return produtos;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

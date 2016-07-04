@@ -5,6 +5,7 @@
  */
 package br.ufpr.ru.modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,20 @@ public class Venda {
         this.checkin = checkin;
         this.tipoDeReceita = tipoDeReceita;
         this.caixa = caixa;
+        this.listaDeProdutos = new ArrayList<>();
+    }
+
+    public boolean addProduto(Produto produto) {
+        if (produto.getPrecoPadrao() > produto.getPrecoVenda()) {
+            for (Produto produto1 : listaDeProdutos) {
+                if (produto.getDescricao() == produto1.getDescricao()) {
+                    return false;
+                }
+            }
+        }
+        this.listaDeProdutos.add(produto);
+        return true;
+
     }
 
     public int getId() {

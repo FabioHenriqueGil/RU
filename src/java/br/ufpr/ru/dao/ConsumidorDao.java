@@ -250,7 +250,7 @@ public class ConsumidorDao implements IDao<Consumidor> {
     @Override
     public List<Consumidor> listar(String filtro) {
         List<Consumidor> consumidores = new ArrayList<Consumidor>();
-        String sql = "select * from Consumidor where nome like'%" + filtro + "%'";
+        String sql = "select * from Consumidor where ativo= '1' and (nome like'%" + filtro + "%' or id = '"+filtro+"')";
 
         try {
 

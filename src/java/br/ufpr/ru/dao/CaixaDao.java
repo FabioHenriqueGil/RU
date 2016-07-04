@@ -168,4 +168,30 @@ public class CaixaDao implements IDao<Caixa> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public Caixa buscarUltimo() {
+        Caixa caixa = new Caixa();
+        String sql = "SELECT * FROM Caixa ORDER BY id DESC LIMIT 1";
+
+        try {
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            // executa
+            ResultSet resultado = stmt.executeQuery();
+            // alimenta a lista
+            while (resultado.next()) {
+                caixa.setId(resultado.getInt("id"));
+                caixa.setSaldo(resultado.getDouble("saldo"));
+            }
+
+            // fecha conexão
+            resultado.close();
+            stmt.close();
+            return caixa;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
 }

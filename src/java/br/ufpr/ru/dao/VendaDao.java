@@ -50,7 +50,8 @@ public class VendaDao implements IDao<Venda> {
     public void inserir(Venda obj) {
         String sql = "insert into Venda (Checkin_id, TipoDeReceita_id, Caixa_id) values(?,?,?)";
         VendaItemDao vi = new VendaItemDao(connection);
-
+        CheckinDao chdao = new CheckinDao(connection);
+        chdao.inserir(obj.getCheckin());
         try {
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, obj.getCheckin().getId());
@@ -106,7 +107,37 @@ public class VendaDao implements IDao<Venda> {
 
     @Override
     public Venda buscar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Venda ven = new Venda();
+        String sql = "select * from Venda where id =" + id;
+        CaixaDao cd = new CaixaDao(connection);
+        CheckinDao chd = new CheckinDao(connection);
+        TipoDeReceitaDao trd = new TipoDeReceitaDao(connection);
+        VendaItemDao vid = new VendaItemDao(connection);
+        try {
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            // executa
+            ResultSet resultado = stmt.executeQuery();
+            // alimenta a lista
+            while (resultado.next()) {
+                ven.setId(resultado.getInt("id"));
+                ven.setCheckin(chd.buscar(resultado.getInt("Checkin_id")));
+                ven.setTipoDeReceita(trd.buscar(resultado.getInt("TipoDeReceita_id")));
+                ven.setCaixa(cd.buscar(resultado.getInt("Caixa_id")));
+                ven.setListaDeProdutos(vid.listar(ven));
+                
+            }
+            
+            // fecha conexão
+            resultado.close();
+            stmt.close();
+            return ven;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override

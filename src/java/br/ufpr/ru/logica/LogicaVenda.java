@@ -35,4 +35,8 @@ public class LogicaVenda implements CrudVenda {
         dao.alterar(venda);
     }
 
+    public Venda buscaVenda(Integer idVenda) {
+        return dao.buscar(idVenda);
+    }
+
 }

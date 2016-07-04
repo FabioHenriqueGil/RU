@@ -38,8 +38,8 @@ public class LogicaTaxaDeSubsidio implements CrudTaxaDeSubsidio{
     }
 
     @Override
-    public TaxaDeSubsidio buscaTaxa(int modalidade_id, int vinculo_id) {
-        return dao.buscar(modalidade_id, vinculo_id);
+    public TaxaDeSubsidio buscaTaxa(int modalidade_id, int produto_id) {
+        return dao.buscar(modalidade_id, produto_id);
     }
 
     @Override
