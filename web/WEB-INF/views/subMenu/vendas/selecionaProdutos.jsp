@@ -171,7 +171,16 @@
                                                 });
                                             }
 
-                                        </script>                                            
+                                        </script> 
+                                        <br>
+                                        <button id="saldo" onclick="saldo()" class="btn btn-primary">Saldo</button>
+                                        <script>
+                                            function saldo() {
+                                                alert("R$ "+${consumidor.credito.saldo});
+                                            }
+                                        </script>
+
+                                        <br><br>
                                         <br><br>
                                         <button id="cancela" onclick="cancela()" class="btn btn-danger">Cancela Venda</button>
                                         <script>
