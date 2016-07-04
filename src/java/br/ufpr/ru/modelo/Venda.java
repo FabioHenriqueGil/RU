@@ -31,12 +31,15 @@ public class Venda {
     }
 
     public boolean addProduto(Produto produto) {
-        if (produto.getPrecoPadrao() > produto.getPrecoVenda()) {
-            for (Produto produto1 : listaDeProdutos) {
-                if (produto.getDescricao() == produto1.getDescricao()) {
+        for (Produto produto1 : listaDeProdutos) {
+            if (produto.getId() == produto1.getId()) {
+                if (produto.getPrecoPadrao() > produto.getPrecoVenda()) {
                     return false;
                 }
+                produto1.setQtd(produto1.getQtd() + 1);
+                return true;
             }
+
         }
         this.listaDeProdutos.add(produto);
         return true;
@@ -89,6 +92,20 @@ public class Venda {
             valor = valor + (produto.getPrecoVenda() * produto.getQtd());
         }
         return valor;
+
+    }
+
+    public void removeProduto(int idProduto) {
+
+        for (int i = 0; i < listaDeProdutos.size(); i++) {
+            if (listaDeProdutos.get(i).getId() == idProduto) {
+                if (listaDeProdutos.get(i).getQtd() > 1) {
+                    listaDeProdutos.get(i).setQtd(listaDeProdutos.get(i).getQtd() - 1);
+                } else {
+                    listaDeProdutos.remove(i);
+                }
+            }
+        }
 
     }
 

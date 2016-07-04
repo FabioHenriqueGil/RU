@@ -76,12 +76,20 @@
                                             <label class="modal-close" for="modal_produto"></label>
                                         </div>
                                         <script>
+
                                             function atualiza(id, precoVenda, idVenda) {
-                                                $.post("adicionaProdutoVenda?idProduto=" +id+"&precoVenda="+precoVenda+"&idVenda="+idVenda, function (dadosDeResposta) {
+                                                $.post("adicionaProdutoVenda?idProduto=" + id + "&precoVenda=" + precoVenda + "&idVenda=" + idVenda, function (dadosDeResposta) {
 
                                                     $("#produtosSelecionados").html(dadosDeResposta);
                                                 });
-                                                
+
+                                            }
+                                            function removerProduto(id, idVenda) {
+                                                $.post("removerProduto?idProduto=" + id + "&idVenda=" + idVenda, function (dadosDeResposta) {
+
+                                                    $("#produtosSelecionados").html(dadosDeResposta);
+                                                });
+
                                             }
 
                                         </script>
@@ -180,28 +188,8 @@
                                     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                                     <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-                                    <div id="produtosSelecionados"  class="panel panel-primary">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <tr>
-                                                    <td><b><label for="filtro">ID</label></b></td>
-                                                    <td><b><label for="filtro">Descricao</label></b></td>
-                                                    <td><b><label for="filtro">Preco</label></b></td>
-                                                    <td><b><label for="filtro">Remover</label></b></td>
-                                                </tr>
-
-
-                                                <c:forEach items="${produtos}" var="produto">
-                                                    <tr >
-                                                        <td>${produto.id}</td>
-                                                        <td>${produto.descricao}</td>
-                                                        <td>${produto.precoVenda}</td>
-                                                        <td>Por fazer</td>
-
-                                                    </tr>
-                                                </c:forEach>
-                                            </table>
-                                        </div>
+                                    <div id="produtosSelecionados"  class="panel panel-primary">                                        
+                                        <c:import url="produtosSelecionados.jsp"/>                                        
                                     </div>
                                 </div>
                             </div><!--/row-->

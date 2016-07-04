@@ -73,7 +73,7 @@
 
             }
             function iniciaVenda(id) {
-                window.location.href = 'selecionaProdutos?consumidor_id=' + id;
+                window.location.href = 'intermediarioVenda?consumidor_id=' + id;
             }
         </script>
     </body>
