@@ -17,6 +17,7 @@ import br.ufpr.ru.modelo.Consumidor;
 import br.ufpr.ru.modelo.Produto;
 import br.ufpr.ru.modelo.TipoDeReceita;
 import br.ufpr.ru.modelo.Venda;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -96,7 +97,7 @@ public class ControllerVenda {
         Venda venda = logicaVenda.buscaVenda(venda_id);
         model.addAttribute("consumidor", consumidor);
         model.addAttribute("qtdItens", 0);
-        model.addAttribute("total", 0.00);
+        model.addAttribute("total", venda.getValorTotal());
         model.addAttribute("venda", venda);
         model.addAttribute("produtos", logicaVenda.buscaVenda(venda_id).getListaDeProdutos());
         model.addAttribute("buscaProdutos", produtos);
@@ -140,17 +141,34 @@ public class ControllerVenda {
         logicaCaixa.deposita(logicaCaixa.buscaUltimoCaixa(), valor);
     }
 
+//    @RequestMapping("saca")
+//    public boolean saca(Double valor, Integer consumidor_id) {
+//        Consumidor consumidor = logicaConsumidor.buscarConsumidor(consumidor_id);
+//        if (logicaCaixa.saca(logicaCaixa.buscaUltimoCaixa(), valor)) {
+//            if (consumidor.saca(valor)) {
+//                logicaConsumidor.alterarConsumidor(consumidor);
+//                return true;
+//            }
+//            logicaCaixa.deposita(logicaCaixa.buscaUltimoCaixa(), valor);
+//        }
+//        return false;
+//
+//    }
     @RequestMapping("saca")
-    public boolean saca(Double valor, Integer consumidor_id) {
+    public void saca(Double valor, Integer consumidor_id, HttpServletResponse response) throws IOException {
         Consumidor consumidor = logicaConsumidor.buscarConsumidor(consumidor_id);
         if (logicaCaixa.saca(logicaCaixa.buscaUltimoCaixa(), valor)) {
             if (consumidor.saca(valor)) {
                 logicaConsumidor.alterarConsumidor(consumidor);
-                return true;
+                response.getWriter().write("true");
+            } else {
+                logicaCaixa.deposita(logicaCaixa.buscaUltimoCaixa(), valor);
+                response.getWriter().write("false");
             }
-            logicaCaixa.deposita(logicaCaixa.buscaUltimoCaixa(), valor);
+        } else {
+            response.getWriter().write("false");
         }
-        return false;
+        response.setStatus(200);
 
     }
 
